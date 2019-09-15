@@ -17,21 +17,16 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
 
-# Login, Listview and Changeview Page
-admin.site.site_header = "Courses Admin"
-# Listview Page
-admin.site.site_title = "Courses Admin"
-# HTML title tag
-admin.site.index_title = "Welcome to the Courses Admin"
+
+admin.site.site_header = "Сайт курсов"
+admin.site.site_title = "Сайт курсов"
+admin.site.index_title = "Добро пожаловать в панель управления сайта курсов!"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
-    path('users/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:
-    # test mode
     from django.conf.urls.static import static
     import debug_toolbar
     urlpatterns = [

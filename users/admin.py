@@ -1,43 +1,58 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from django.utils.translation import ugettext_lazy as _
-
-from .models import CustomUser
+from .models import CustomUser, Partner, Student, Teacher
 
 
+@admin.register(CustomUser)
 class UserAdmin(UserAdmin):
 
-    list_display = (
-        'username', 'email',
-        'last_login', 'date_joined',
-        'is_staff')
-    list_filter = ('is_staff', )
+    list_display = ('first_name', 'email', 'phone_number', 'last_login',
+                    'date_joined', 'is_student', 'is_teacher', 'is_partner',
+                    'is_staff')
+    list_filter = ('is_student', 'is_teacher', 'is_partner', 'is_staff')
 
     fieldsets = (
-        (_('Info'), {'fields': (
-            'username', 'email',
-            'password',)}),
-
-        (_('Permissions'), {'fields': (
-            'is_active', 'is_staff', 'is_superuser')}),
-        (_('Important dates'), {'fields': (
-            'last_login', 'date_joined', )}),
-        (_('Groups'), {'fields': ('groups',)}),
-        #('Perm', {'fields': ('user_permissions',)}),
+        ('Персональная информация', {
+            'fields': (('first_name', 'last_name'), ('email', 'phone_number'),
+                       'password')
+        }),
+        ('Разрешения', {
+            'fields': (('is_student', 'is_teacher', 'is_partner'),
+                       ('is_active', 'is_staff', 'is_superuser'))
+        }),
+        ('Даты', {
+            'fields': ('last_login', 'date_joined')
+        }),
+        ('Группы и разрешения', {
+            'fields': ('groups', 'user_permissions')
+        }),
     )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'username', 'password1',
-                       'password2')}
-         ),
-    )
-    search_fields = ('email', 'username')
-    ordering = ('username',)
-    readonly_fields = ('last_login', 'date_joined', )
+    add_fieldsets = ((None, {
+        'classes': ('wide', ),
+        'fields': ('first_name', 'email', 'phone_number', 'password1',
+                   'password2')
+    }), )
+    search_fields = ('email', 'first_name', 'phone_number')
+    ordering = ('is_staff', )
+    readonly_fields = ('last_login', 'date_joined')
 
     filter_horizontal = ()
 
 
-admin.site.register(CustomUser, UserAdmin)
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Teacher)
+class TeacherAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Partner)
+class PartnerAdmin(admin.ModelAdmin):
+    pass
+
+
+# admin.site.register(CustomUser, UserAdmin)
