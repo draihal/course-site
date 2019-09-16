@@ -19,7 +19,6 @@ class Course(models.Model):
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
 
-    price = models.DecimalField('Стоимость', max_digits=10, decimal_places=2)
     description = models.TextField('Что даст этот курс', )
     necessary_knowledge = models.TextField('Необходимые знания', )
     study_process = models.TextField('Процесс обучения', )
