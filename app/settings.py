@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'solo.apps.SoloAppConfig',
+
     # Local
     'users.apps.UsersConfig',
     'education.apps.EducationConfig',
     'pages.apps.PagesConfig',
-    'blog.apps.BlogConfig',
 
     'django_cleanup.apps.CleanupConfig',
 ]

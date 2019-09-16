@@ -22,6 +22,7 @@ class Partner(models.Model):
     company = models.CharField('Название компании', max_length=127)
     info = models.TextField('О компании', max_length=500, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
+    courses = models.ManyToManyField('pages.Course', verbose_name='Выпусники каких курсов интересуют')
 
     class Meta:
         verbose_name = 'Партнер'
