@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+django-debug-toolbar = "~=2.0"
+
+[packages]
+django = "~=2.2"
+Pillow = "~=6.1"
+django-cleanup = "~=4.0"
+psycopg2-binary = "~=2.8"
+django-solo = "~=1.1"
+
+[requires]
+python_version = "3.6"
