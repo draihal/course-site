@@ -1,14 +1,12 @@
 from django.db import models
 from django.core.validators import validate_image_file_extension
 
-from .course_category import CourseCategory
-
 
 class Course(models.Model):
     name = models.CharField('Название курса', max_length=150, )
     slug = models.SlugField('Slug для url', max_length=150, unique=True,)
     category = models.ForeignKey(
-        CourseCategory, on_delete=models.CASCADE, verbose_name='Категория курса')
+        'pages.CourseCategory', on_delete=models.CASCADE, verbose_name='Категория курса')
 
     def upload_image_dir(self, filename):
         return f'site/courses/{filename.lower()}'
@@ -29,7 +27,7 @@ class Course(models.Model):
         upload_to=upload_image_dir,
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
-    partners = models.ManyToManyField('users.Partner', verbose_name='Партнеры ждут выпускников')
+    # program_details =  # TODO
 
     class Meta:
         ordering = ('name',)
@@ -37,4 +35,4 @@ class Course(models.Model):
         verbose_name_plural = 'Курсы'
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'

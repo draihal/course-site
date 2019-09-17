@@ -1,7 +1,5 @@
 from django.db import models
 
-from .lesson import Lesson
-
 
 class Grade(models.Model):
     STATUS_CHOICES = (
@@ -11,11 +9,11 @@ class Grade(models.Model):
         ('hot', 'Сроки сдачи прошли'),
         ('done', 'Сдано'),
     )
-    status = models.CharField('Статус домашнего задания', max_length=6, choices=STATUS_CHOICES)
+    status = models.CharField('Статус домашнего задания', max_length=16, choices=STATUS_CHOICES)
     grade = models.TextField('Оценка преподавателя', )
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='Урок')
-    teacher = models.ForeignKey('users.Teacher', on_delete=models.DO_NOTHING, verbose_name='Преподаватель')
-    student = models.ForeignKey('users.Student', on_delete=models.DO_NOTHING, verbose_name='Студент')
+    lesson = models.ForeignKey('education.Lesson', on_delete=models.CASCADE, verbose_name='Урок')
+    teacher = models.ForeignKey('users.Teacher', on_delete=models.CASCADE, verbose_name='Преподаватель')
+    student = models.ForeignKey('users.Student', on_delete=models.CASCADE, verbose_name='Студент')
     # chat = models.ForeignKey()  # TODO
 
     class Meta:

@@ -23,8 +23,8 @@ class ContactsPage(SingletonModel):
         'Email', max_length=255, validators=[validate_email])
 
     class Meta:
-        verbose_name = 'Контакты'
-        verbose_name_plural = 'Контакты'
+        verbose_name = 'Страница - Контакты'
+        verbose_name_plural = 'Страница - Контакты'
 
     def __str__(self):
         return f'Страница контактов'

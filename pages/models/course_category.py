@@ -21,4 +21,4 @@ class CourseCategory(models.Model):
         verbose_name_plural = 'Категории курсов'
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'

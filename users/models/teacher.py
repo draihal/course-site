@@ -11,8 +11,7 @@ class Teacher(models.Model):
         primary_key=True)
 
     def upload_avatar_image_dir(self, filename):
-        url = f'avatars/teachers/{filename.lower()}'
-        return url
+        return f'avatars/teachers/{filename.lower()}'
 
     avatar = models.ImageField(
         'Фотография',

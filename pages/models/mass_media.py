@@ -12,7 +12,7 @@ class MassMediaPublication(models.Model):
         upload_to=upload_image_dir,
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
-    publication_url = models.URLField('url публикации', max_length=250)
+    publication_url = models.URLField('Ссылка публикации', max_length=250)
     mass_media_name = models.CharField('Название сми', max_length=250)
     short_description = models.CharField('Название публикации', max_length=250)
     date_of_publish = models.DateField('Дата публикации',)
