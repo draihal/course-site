@@ -5,7 +5,13 @@ from django.core.validators import validate_image_file_extension
 from rest_framework.reverse import reverse as api_reverse
 
 
+class PartnerManager(models.Manager):
+    def get_queryset(self):
+        return super(PartnerManager, self).get_queryset().select_related('user').prefetch_related('courses')
+
+
 class Partner(models.Model):
+    objects = PartnerManager()
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         verbose_name='Пользователь',

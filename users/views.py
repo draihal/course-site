@@ -27,7 +27,8 @@ from users import serializers
 
 
 class PartnerProfileViewSet(viewsets.ModelViewSet):
-    queryset = Partner.objects.select_related('user').prefetch_related('courses')
+    queryset = Partner.objects.all()
+    # select_related('user').prefetch_related('courses')
     # serializer_class = PartnerProfileSerializer
 
     def get_permissions(self):

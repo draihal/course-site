@@ -66,6 +66,7 @@ get_logo_preview.short_description = "Превью 200px"
 
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
+    list_select_related = ('user', )
     list_display = [
         'user', 'company', 'updated_at',
     ]
