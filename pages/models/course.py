@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import validate_image_file_extension
 
+from rest_framework.reverse import reverse as api_reverse
+
 
 class Course(models.Model):
     name = models.CharField('Название курса', max_length=150, )
@@ -36,3 +38,6 @@ class Course(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+    def get_api_url(self, request=None):
+        return api_reverse('pages:course-detail', kwargs={'pk': self.pk}, request=request)

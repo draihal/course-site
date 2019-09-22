@@ -8,6 +8,8 @@ from users.views import PartnerProfileViewSet, StudentProfileViewSet, TeacherPro
 
 from djoser import views as djsoer_views
 
+app_name = 'users'
+
 
 router = routers.DefaultRouter()
 router.register('profile/partner', PartnerProfileViewSet, 'partner-profile')

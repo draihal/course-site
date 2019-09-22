@@ -2,6 +2,7 @@ from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 
 from users.models import CustomUser, Student, Teacher, Partner
+from pages.serializers import CourseShortSerializer
 
 
 class StudentProfileSerializer(serializers.ModelSerializer):
@@ -19,10 +20,30 @@ class TeacherProfileSerializer(serializers.ModelSerializer):
 
 
 class PartnerProfileSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+    id = serializers.IntegerField(source='user.pk', read_only=True)
+    courses = CourseShortSerializer(many=True, read_only=True)
+    logo = serializers.ImageField(use_url=True)
+
     class Meta:
         model = Partner
         # fields = '__all__'
-        exclude = ['updated_at', 'user']
+        # exclude = ['updated_at',]
+        fields = ['id', 'url', 'logo', 'company', 'info', 'courses', ]
+
+    def get_url(self, obj):
+        request = self.context.get("request")
+        return obj.get_api_url(request=request)
+
+
+class PartnerProfileCreateOrUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Partner
+        exclude = ['created_at', 'updated_at', ]
+
+    # def create(self, validated_data):
+    #     return Partner.objects.create(updated_at=, **validated_data)
 
 
 # class CustomUserCreateSerializer(UserCreateSerializer):
