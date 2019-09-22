@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+from datetime import timedelta
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -39,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'solo.apps.SoloAppConfig',
+    'rest_framework',
+    'drf_yasg',
+    'djoser',
 
     # Local
     'users.apps.UsersConfig',
@@ -140,10 +144,44 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "/media/")
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+# LOGIN_URL = 'admin'
+# LOGOUT_URL = 'admin'
+# LOGIN_REDIRECT_URL = 'admin'
+# LOGOUT_REDIRECT_URL = 'admin'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        #'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT', 'Bearer'),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+}
+
+DJOSER = {
+    'PERMISSIONS': {
+        'user_list': ['rest_framework.permissions.IsAdminUser'],
+        # 'users_me_delete': ['rest_framework.permissions.IsAdminUser'],
+        # 'users_delete': ['rest_framework.permissions.IsAdminUser'],
+    },
+    'SERIALIZERS': {
+        'user_create': 'users.serializers.CustomUserCreateSerializer',
+        'user': 'users.serializers.CustomUserSerializer',
+    },
+}
 
 try:
     from local_settings import *

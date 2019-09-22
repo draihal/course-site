@@ -15,15 +15,37 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf import settings
-from django.urls import path, include
+from django.urls import path, re_path, include
 
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Courses API",
+      default_version='v1',
+      description="API for courses site",
+      # terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="draihal.a@gmail.com"),
+      # license=openapi.License(name="MIT License"),
+   ),
+   # if False, includes only endpoints the current user has access to
+   public=False,
+   permission_classes=(permissions.AllowAny,),
+)
 
 admin.site.site_header = "Сайт курсов"
 admin.site.site_title = "Сайт курсов"
 admin.site.index_title = "Добро пожаловать в панель управления сайта курсов!"
 
 urlpatterns = [
-    path('courses-admin/', admin.site.urls),
+    path('courses-admin/', admin.site.urls, name='admin'),
+    re_path(r'^api/v1/swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('api/v1/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/v1/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('api/v1/', include('users.urls')),
 ]
 
 if settings.DEBUG:
