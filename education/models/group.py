@@ -1,5 +1,7 @@
 from django.db import models
 
+from rest_framework.reverse import reverse as api_reverse
+
 
 class Group(models.Model):
     name = models.CharField('Название группы', max_length=150, help_text='PyWeb-2019-09-16')
@@ -18,3 +20,6 @@ class Group(models.Model):
 
     def __str__(self):
         return f'Группа {self.name}'
+
+    def get_api_url(self, request=None):
+        return api_reverse('education:group-detail', kwargs={'pk': self.pk}, request=request)

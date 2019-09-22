@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import validate_image_file_extension
 
+from rest_framework.reverse import reverse as api_reverse
+
 
 class Teacher(models.Model):
     user = models.OneToOneField(
@@ -34,7 +36,8 @@ class Teacher(models.Model):
     sex = models.CharField('Пол', max_length=1, choices=SEX_CHOICES)
     company = models.CharField('Компания', max_length=127, blank=True)
     position = models.CharField('Должность', max_length=127, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, )
+    created_at = models.DateTimeField('Создан', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлен', auto_now=True)
 
     class Meta:
         verbose_name = 'Преподаватель'
@@ -42,3 +45,6 @@ class Teacher(models.Model):
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name if self.user.last_name else ""}'
+
+    def get_api_url(self, request=None):
+        return api_reverse('users:teacher-profile-detail', kwargs={'pk': self.user.pk}, request=request)

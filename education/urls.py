@@ -2,14 +2,14 @@ from django.urls import path, include
 
 from rest_framework import routers
 
-from pages.views import CourseViewSet
+from education.views import GroupViewSet
 
 
-app_name = 'pages'
+app_name = 'education'
 
 
 router = routers.DefaultRouter()
-router.register('pages/course', CourseViewSet, 'course')
+router.register('group', GroupViewSet, 'group')
 
 
 urlpatterns = [

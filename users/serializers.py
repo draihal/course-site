@@ -3,20 +3,77 @@ from rest_framework import serializers
 
 from users.models import CustomUser, Student, Teacher, Partner
 from pages.serializers import CourseShortSerializer
+from education.serializers import GroupShortSerializer
+
+
+class CustomUserCreateSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        fields = ('email', 'first_name', 'last_name', 'password',
+                  'phone_number', 'is_partner', 'is_student', 'is_teacher',)
+
+
+class CustomUserSerializer(UserSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'first_name', 'last_name', )
+        # read_only_fields = (CustomUser.USERNAME_FIELD,)
 
 
 class StudentProfileSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+    id = serializers.IntegerField(source='user.pk', read_only=True)
+    avatar = serializers.ImageField(use_url=True)
+    involved = GroupShortSerializer(many=True, read_only=True, source='group_set')
+
     class Meta:
         model = Student
-        # fields = '__all__'
-        exclude = ['updated_at', 'user']
+        fields = [
+            'id', 'user', 'url', 'avatar', 'first_name_lat',
+            'last_name_lat', 'username', 'birth_date',
+            'country', 'city', 'relocate', 'full_time',
+            'part_time', 'remote', 'remote', 'sex', 'company',
+            'position', 'involved',
+        ]
+
+    def get_url(self, obj):
+        request = self.context.get("request")
+        return obj.get_api_url(request=request)
+
+
+class StudentProfileCreateOrUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Student
+        exclude = ['created_at', 'updated_at', ]
 
 
 class TeacherProfileSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+    id = serializers.IntegerField(source='user.pk', read_only=True)
+    avatar = serializers.ImageField(use_url=True)
+    involved = GroupShortSerializer(many=True, read_only=True, source='group_set')
+    user = CustomUserSerializer(read_only=True,)
+    # first_name = CustomUserSerializer(source='user.first_name', read_only=True,)
+    # last_name = CustomUserSerializer(source='user.last_name', read_only=True, )
+
     class Meta:
         model = Teacher
-        # fields = '__all__'
-        exclude = ['updated_at', 'user']
+        fields = [
+            'id', 'user', 'url', 'avatar', 'bio',
+            # 'first_name', 'last_name',
+            'username', 'company', 'position',
+            'involved',
+        ]
+
+    def get_url(self, obj):
+        request = self.context.get("request")
+        return obj.get_api_url(request=request)
+
+
+class TeacherProfileCreateOrUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        exclude = ['created_at', 'updated_at', ]
 
 
 class PartnerProfileSerializer(serializers.ModelSerializer):
@@ -27,8 +84,6 @@ class PartnerProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Partner
-        # fields = '__all__'
-        # exclude = ['updated_at',]
         fields = ['id', 'url', 'logo', 'company', 'info', 'courses', ]
 
     def get_url(self, obj):
@@ -57,15 +112,3 @@ class PartnerProfileCreateOrUpdateSerializer(serializers.ModelSerializer):
 #             'is_student',
 #             'is_teacher',
 #         )
-
-class CustomUserCreateSerializer(UserCreateSerializer):
-    class Meta(UserCreateSerializer.Meta):
-        fields = ('email', 'first_name', 'last_name', 'password',
-                  'phone_number', 'is_partner', 'is_student', 'is_teacher',)
-
-
-class CustomUserSerializer(UserSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('id', 'email', 'first_name', 'last_name', )
-        # read_only_fields = (CustomUser.USERNAME_FIELD,)

@@ -1,35 +1,12 @@
 from rest_framework import viewsets
-from rest_framework import mixins
 
-# from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
-from users.permissions import IsLoggedInUserOrAdmin, IsAdminUser, IsPartnerOrAdminUser
-
-from users.models import CustomUser
-# from users.serializers import UserSerializer
-#
-#
-# class StudentUserViewSet(viewsets.ModelViewSet):
-#     queryset = CustomUser.objects.all()
-#     serializer_class = UserSerializer
-#
-#     def get_permissions(self):
-#         permission_classes = []
-#         if self.action == 'create':
-#             permission_classes = [AllowAny]
-#         elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-#             permission_classes = [IsLoggedInUserOrAdmin]
-#         elif self.action == 'list' or self.action == 'destroy':
-#             permission_classes = [IsAdminUser]
-#         return [permission() for permission in permission_classes]
-
+from users.permissions import IsLoggedInUserOrAdmin, IsAdminUser, IsPartnerOrAdminUser, IsStudentUser, IsTeacherUser
 from users.models import Partner, Student, Teacher
 from users import serializers
 
 
 class PartnerProfileViewSet(viewsets.ModelViewSet):
-    queryset = Partner.objects.all()
-    # select_related('user').prefetch_related('courses')
-    # serializer_class = PartnerProfileSerializer
+    queryset = Partner.objects.select_related('user').prefetch_related('courses')
 
     def get_permissions(self):
         permission_classes = []
@@ -48,10 +25,38 @@ class PartnerProfileViewSet(viewsets.ModelViewSet):
 
 
 class StudentProfileViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = serializers.StudentProfileSerializer
+    queryset = Student.objects.select_related('user').prefetch_related('group_set')
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action == 'create':
+            permission_classes = [IsStudentUser]
+        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
+            permission_classes = [IsLoggedInUserOrAdmin]
+        elif self.action == 'destroy' or self.action == 'list':
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+    def get_serializer_class(self):
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+            return serializers.StudentProfileCreateOrUpdateSerializer
+        return serializers.StudentProfileSerializer
 
 
 class TeacherProfileViewSet(viewsets.ModelViewSet):
-    queryset = Teacher.objects.all()
-    serializer_class = serializers.TeacherProfileSerializer
+    queryset = Teacher.objects.select_related('user').prefetch_related('group_set')
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action == 'create':
+            permission_classes = [IsTeacherUser]
+        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
+            permission_classes = [IsLoggedInUserOrAdmin]
+        elif self.action == 'destroy':
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+    def get_serializer_class(self):
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+            return serializers.TeacherProfileCreateOrUpdateSerializer
+        return serializers.TeacherProfileSerializer

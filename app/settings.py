@@ -173,14 +173,13 @@ SIMPLE_JWT = {
 
 DJOSER = {
     'PERMISSIONS': {
-        'user_list': ['rest_framework.permissions.IsAdminUser'],
-        # 'users_me_delete': ['rest_framework.permissions.IsAdminUser'],
-        # 'users_delete': ['rest_framework.permissions.IsAdminUser'],
+        'user_delete': ['users.permissions.IsAdminUser'],
     },
     'SERIALIZERS': {
         'user_create': 'users.serializers.CustomUserCreateSerializer',
         'user': 'users.serializers.CustomUserSerializer',
     },
+    'HIDE_USERS': True,
 }
 
 try:

@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from users.permissions import IsLoggedInUserOrAdmin, IsAdminUser, IsPartnerOrAdminUser
+from education import models
+from education import serializers
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = models.Group.objects.all()
+    serializer_class = serializers.GroupShortSerializer  # TODO change!
+
