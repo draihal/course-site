@@ -1,5 +1,7 @@
 from django.db import models
 
+from rest_framework.reverse import reverse as api_reverse
+
 
 class Payment(models.Model):
     datetime = models.DateTimeField('Дата оплаты', )
@@ -16,3 +18,6 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'{self.student} {self.module} {self.module.group}'
+
+    def get_api_url(self, request=None):
+        return api_reverse('education:payments-detail', kwargs={'pk': self.pk}, request=request)

@@ -1,5 +1,7 @@
 from django.db import models
 
+from rest_framework.reverse import reverse as api_reverse
+
 
 class Grade(models.Model):
     STATUS_CHOICES = (
@@ -25,3 +27,6 @@ class Grade(models.Model):
 
     def __str__(self):
         return f'{self.status} {self.lesson} {self.student}'
+
+    def get_api_url(self, request=None):
+        return api_reverse('education:grades-detail', kwargs={'pk': self.pk}, request=request)

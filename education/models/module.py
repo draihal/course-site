@@ -1,5 +1,7 @@
 from django.db import models
 
+from rest_framework.reverse import reverse as api_reverse
+
 
 class Module(models.Model):
     name = models.CharField('Название модуля', max_length=150, help_text='1 месяц')
@@ -14,3 +16,6 @@ class Module(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+    def get_api_url(self, request=None):
+        return api_reverse('education:modules-detail', kwargs={'pk': self.pk}, request=request)

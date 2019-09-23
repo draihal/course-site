@@ -24,4 +24,4 @@ class Group(models.Model):
         return f'Группа {self.name}'
 
     def get_api_url(self, request=None):
-        return api_reverse('education:group-detail', kwargs={'pk': self.pk}, request=request)
+        return api_reverse('education:groups-detail', kwargs={'slug': self.slug}, request=request)
