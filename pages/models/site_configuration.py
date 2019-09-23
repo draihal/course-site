@@ -5,7 +5,7 @@ from solo.models import SingletonModel
 
 
 class SiteConfiguration(SingletonModel):
-    title = models.CharField('Название страницы', max_length=250)
+    title = models.CharField('Название вкладки с сайтом', max_length=250)
 
     def upload_logo_image_dir(self, filename):
         return f'site/logo/{filename.lower()}'
@@ -16,7 +16,7 @@ class SiteConfiguration(SingletonModel):
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
     short_description = models.CharField('Слоган сайта курсов', max_length=250)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         verbose_name = 'Основная информация'

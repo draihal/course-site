@@ -16,13 +16,12 @@ class AboutUsPage(SingletonModel):
         upload_to=upload_image_dir,
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
-    short_description = models.CharField('О КОМПАНИИ', max_length=250)
-    short_about_us = models.TextField('Всё, что вы хотите узнать про нас', max_length=750)
-    updated_at = models.DateTimeField(auto_now=True)
+    short_description = models.TextField('О КОМПАНИИ')
+    short_about_us = models.TextField('Всё, что вы хотите узнать про нас', )
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         verbose_name = 'Страница - О нас'
-        verbose_name_plural = 'Страница - О нас'
 
     def __str__(self):
         return f'Страница о нас'

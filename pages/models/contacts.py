@@ -5,6 +5,8 @@ from solo.models import SingletonModel
 
 
 class ContactsPage(SingletonModel):
+    title = models.CharField(max_length=150, help_text='Название вкладки для страницы',)
+    slug = models.SlugField(max_length=150, help_text='Короткое название латиницей для url')
     vk = models.URLField('VK', max_length=250)
     fb = models.URLField('Facebook', max_length=250)
     ok = models.URLField('ОК', max_length=250)
@@ -21,6 +23,7 @@ class ContactsPage(SingletonModel):
         max_length=17)
     email = models.EmailField(
         'Email', max_length=255, validators=[validate_email])
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         verbose_name = 'Страница - Контакты'
