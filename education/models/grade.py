@@ -2,8 +2,10 @@ from django.db import models
 
 from rest_framework.reverse import reverse as api_reverse
 
+from users.models.mixins import TimestampMixin
 
-class Grade(models.Model):
+
+class Grade(TimestampMixin):
     STATUS_CHOICES = (
         ('undone', 'Не сдано'),
         ('check', 'На проверке'),
@@ -17,8 +19,6 @@ class Grade(models.Model):
     teacher = models.ForeignKey('users.Teacher', on_delete=models.CASCADE, verbose_name='Преподаватель')
     student = models.ForeignKey('users.Student', on_delete=models.CASCADE, verbose_name='Студент')
     # chat = models.ForeignKey()  # TODO
-    created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         ordering = ['-updated_at']

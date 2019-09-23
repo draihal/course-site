@@ -2,14 +2,14 @@ from django.db import models
 
 from rest_framework.reverse import reverse as api_reverse
 
+from users.models.mixins import TimestampMixin
 
-class Review(models.Model):
+
+class Review(TimestampMixin):
     student = models.ForeignKey(
         'users.Student', on_delete=models.CASCADE, verbose_name='Студент')
     course = models.ForeignKey('pages.Course', on_delete=models.CASCADE, verbose_name='Курс')
     text = models.TextField('Отзыв', )
-    created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         ordering = ['-updated_at']

@@ -144,10 +144,6 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "/media/")
 
-# LOGIN_URL = 'admin'
-# LOGOUT_URL = 'schema-swagger-ui'
-# LOGIN_REDIRECT_URL = 'admin'
-# LOGOUT_REDIRECT_URL = 'admin'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -167,10 +163,12 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
+
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT', 'Bearer'),
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
 }
+
 
 DJOSER = {
     'PERMISSIONS': {

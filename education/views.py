@@ -21,7 +21,7 @@ class GradeViewSet(viewsets.ModelViewSet):
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-    queryset = models.Group.objects.all()
+    queryset = models.Group.objects.prefetch_related('students', 'students__user', 'teachers', 'teachers__user')
     lookup_field = 'slug'
     serializer_class = serializers.GroupSerializer
 

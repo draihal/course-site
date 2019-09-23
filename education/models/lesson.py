@@ -2,8 +2,10 @@ from django.db import models
 
 from rest_framework.reverse import reverse as api_reverse
 
+from users.models.mixins import TimestampMixin
 
-class Lesson(models.Model):
+
+class Lesson(TimestampMixin):
     name = models.CharField('Название урока', max_length=150, )
     slug = models.SlugField('Slug для url', max_length=150, unique=True,)
     module = models.ForeignKey('education.Module', on_delete=models.CASCADE, verbose_name='Модуль')
@@ -17,8 +19,6 @@ class Lesson(models.Model):
     homework_description = models.TextField('Описание домашнего задания',)
     homework_date = models.DateField('Дата сдачи до', )
     # materials = models.ForeignKey()  # TODO polymorphic
-    created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         ordering = ('-datetime',)

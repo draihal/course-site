@@ -48,13 +48,13 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CourseCategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.CourseCategory.objects.all()
+    queryset = models.CourseCategory.objects.prefetch_related('course_set')
     lookup_field = 'slug'
     serializer_class = serializers.CourseCategorySerializer
 
 
 class EventViewSet(viewsets.ModelViewSet):
-    queryset = models.Event.objects.all()
+    queryset = models.Event.objects.select_related('speaker', 'course', 'speaker__user')
     lookup_field = 'slug'
     serializer_class = serializers.EventSerializer
 
@@ -76,7 +76,7 @@ class MassMediaPublicationViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
-    queryset = models.Review.objects.all()
+    queryset = models.Review.objects.select_related('student', 'course', 'student__user')
     serializer_class = serializers.ReviewSerializer
 
     def get_permissions(self):

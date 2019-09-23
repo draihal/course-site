@@ -2,12 +2,12 @@ from django.db import models
 
 from rest_framework.reverse import reverse as api_reverse
 
+from users.models.mixins import TimestampMixin
 
-class Module(models.Model):
+
+class Module(TimestampMixin):
     name = models.CharField('Название модуля', max_length=150, help_text='1 месяц')
     group = models.ForeignKey('education.Group', on_delete=models.CASCADE, verbose_name='Группа')
-    created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         ordering = ('group',)

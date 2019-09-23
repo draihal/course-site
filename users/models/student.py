@@ -4,8 +4,16 @@ from django.core.validators import validate_image_file_extension
 
 from rest_framework.reverse import reverse as api_reverse
 
+from .mixins import BioMixin, TimestampMixin
 
-class Student(models.Model):
+
+class StudentManager(models.Manager):
+    def get_queryset(self):
+        return super(StudentManager, self).get_queryset().select_related('user')
+
+
+class Student(BioMixin, TimestampMixin):
+    objects = StudentManager()
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         verbose_name='Пользователь',
@@ -21,27 +29,10 @@ class Student(models.Model):
         upload_to=upload_avatar_image_dir,
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
-    first_name_lat = models.CharField(
-        'Имя (латиницей)', max_length=127, blank=True)
-    last_name_lat = models.CharField(
-        'Фамилия (латиницей)', max_length=127, blank=True)
-    username = models.CharField('Имя (в блоге)', max_length=127, blank=True)
-    birth_date = models.DateField('Дата рождения', blank=True)
-    COUNTRY_CHOICES = (('NA', 'Не указано'), ('RU', 'Россия'),
-                       ('BY', 'Республика Беларусь'), ('KZ', 'Казахстан'),
-                       ('UA', 'Украина'))
-    country = models.CharField('Страна', max_length=2, choices=COUNTRY_CHOICES)
-    city = models.CharField('Город', max_length=127)
     relocate = models.BooleanField('Готовность к переезду', )
     full_time = models.BooleanField('Полный день', )
     part_time = models.BooleanField('Гибкий график', )
     remote = models.BooleanField('Удаленно', )
-    SEX_CHOICES = (('0', 'Не указано'), ('m', 'Мужской'), ('f', 'Женский'))
-    sex = models.CharField('Пол', max_length=1, choices=SEX_CHOICES)
-    company = models.CharField('Компания', max_length=127, blank=True)
-    position = models.CharField('Должность', max_length=127, blank=True)
-    created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         ordering = ['-created_at']

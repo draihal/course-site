@@ -4,13 +4,14 @@ from django.core.validators import validate_image_file_extension
 
 from rest_framework.reverse import reverse as api_reverse
 
+from .mixins import TimestampMixin
 
 # class PartnerManager(models.Manager):
 #     def get_queryset(self):
 #         return super(PartnerManager, self).get_queryset().select_related('user').prefetch_related('courses')
 
 
-class Partner(models.Model):
+class Partner(TimestampMixin):
     # objects = PartnerManager()
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
@@ -29,8 +30,6 @@ class Partner(models.Model):
         validators=[validate_image_file_extension])  # TODO hash
     company = models.CharField('Название компании', max_length=127)
     info = models.TextField('О компании', max_length=500, blank=True)
-    created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
     courses = models.ManyToManyField(
         'pages.Course', verbose_name='Выпусники каких курсов интересуют', blank=True)
 
@@ -40,7 +39,7 @@ class Partner(models.Model):
         verbose_name_plural = 'Партнеры'
 
     def __str__(self):
-        return f'{self.company} {self.user.first_name}'
+        return f'{self.company}'
 
     def get_api_url(self, request=None):
         return api_reverse('users:partner-profile-detail', kwargs={'pk': self.user.pk}, request=request)

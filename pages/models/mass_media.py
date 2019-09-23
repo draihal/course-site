@@ -3,8 +3,10 @@ from django.core.validators import validate_image_file_extension
 
 from rest_framework.reverse import reverse as api_reverse
 
+from users.models.mixins import TimestampMixin
 
-class MassMediaPublication(models.Model):
+
+class MassMediaPublication(TimestampMixin):
     name = models.CharField('Название публикации', max_length=150,)
     slug = models.SlugField('Slug для url', max_length=150, unique=True,)
 
@@ -19,8 +21,6 @@ class MassMediaPublication(models.Model):
     publication_url = models.URLField('Ссылка публикации', max_length=250)
     mass_media_name = models.CharField('Название сми', max_length=250)
     date_of_publish = models.DateField('Дата публикации',)
-    created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         ordering = ['-date_of_publish']
