@@ -1,8 +1,14 @@
 from django.db import models
 from django.core.validators import validate_image_file_extension
 
+from rest_framework.reverse import reverse as api_reverse
 
-class MassMediaPublication(models.Model):
+from users.models.mixins import TimestampMixin
+
+
+class MassMediaPublication(TimestampMixin):
+    name = models.CharField('Название публикации', max_length=150,)
+    slug = models.SlugField('Slug для url', max_length=150, unique=True,)
 
     def upload_image_dir(self, filename):
         return f'site/pages/massmedia/{filename.lower()}'
@@ -14,13 +20,15 @@ class MassMediaPublication(models.Model):
         validators=[validate_image_file_extension])  # TODO hash
     publication_url = models.URLField('Ссылка публикации', max_length=250)
     mass_media_name = models.CharField('Название сми', max_length=250)
-    short_description = models.CharField('Название публикации', max_length=250)
     date_of_publish = models.DateField('Дата публикации',)
-    updated_at = models.DateTimeField(auto_now=True,)
 
     class Meta:
+        ordering = ['-date_of_publish']
         verbose_name = 'Публикация в сми'
         verbose_name_plural = 'Публикации в сми'
 
     def __str__(self):
-        return f'{self.short_description}'
+        return f'{self.name}'
+
+    def get_api_url(self, request=None):
+        return api_reverse('pages:publications-detail', kwargs={'slug': self.slug}, request=request)

@@ -5,6 +5,9 @@ from django.core.mail import send_mail
 from django.core.validators import validate_email, RegexValidator
 
 
+from rest_framework.reverse import reverse as api_reverse
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -58,6 +61,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField('Админ', default=False)
     date_joined = models.DateTimeField(
         'Дата регистрации', auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     objects = UserManager()
 
@@ -83,3 +87,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         """
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    def get_api_url(self, request=None):
+        return api_reverse('users:user-detail', kwargs={'pk': self.pk}, request=request)

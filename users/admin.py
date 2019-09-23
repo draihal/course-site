@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.utils.safestring import mark_safe
 
 from .models import CustomUser, Partner, Student, Teacher
 
@@ -36,23 +37,108 @@ class UserAdmin(UserAdmin):
     search_fields = ('email', 'first_name', 'phone_number')
     ordering = ('is_staff', )
     readonly_fields = ('last_login', 'date_joined')
-
+    list_per_page = 30
     filter_horizontal = ()
+
+
+def get_image_preview(obj):
+    if obj.pk:
+        return mark_safe(
+            f"""<a href="{obj.avatar.url}" target="_blank">
+            <img src="{obj.avatar.url}" alt="avatar" style="max-width: 200px; max-height: 200px;" />
+            </a>"""
+        )
+    return "-"
+
+
+get_image_preview.short_description = "Превью 200px"
 
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    pass
+
+    def get_queryset(self, request):
+        qs = super(StudentAdmin, self).get_queryset(request)
+        qs = qs.select_related('user')
+        return qs
+
+    list_display = ['user', 'username', 'updated_at', ]
+    list_per_page = 30
+    readonly_fields = ('updated_at', 'created_at', get_image_preview)
+    fieldsets = (
+        ('Основная информация', {
+            'fields': (
+                'user', ('first_name_lat', 'last_name_lat',),
+                'username', 'birth_date', 'sex',
+                ('country', 'city'),
+                ('relocate', 'full_time', 'part_time', 'remote',),
+                ('company', 'position',),
+                'avatar',  get_image_preview,
+                ('created_at', 'updated_at'),
+            )
+        }),
+    )
 
 
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
-    pass
+
+    def get_queryset(self, request):
+        qs = super(TeacherAdmin, self).get_queryset(request)
+        qs = qs.select_related('user')
+        return qs
+
+    list_display = ['user', 'username', 'updated_at', ]
+    list_per_page = 30
+    readonly_fields = ('updated_at', 'created_at', get_image_preview)
+    fieldsets = (
+        ('Основная информация', {
+            'fields': (
+                'user', ('first_name_lat', 'last_name_lat',),
+                'username', 'birth_date', 'sex', 'bio',
+                ('country', 'city'),
+                ('company', 'position',),
+                'avatar',  get_image_preview,
+                ('created_at', 'updated_at'),
+            )
+        }),
+    )
 
 
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
-    pass
 
+    def get_queryset(self, request):
+        qs = super(PartnerAdmin, self).get_queryset(request)
+        qs = qs.select_related('user')
+        if request.resolver_match.func.__name__ == 'change_view':
+            qs = qs.prefetch_related('courses')
+        return qs
 
-# admin.site.register(CustomUser, UserAdmin)
+    def get_logo_preview(self, obj):
+        if obj.pk:
+            return mark_safe(
+                f"""<a href="{obj.logo.url}" target="_blank">
+                <img src="{obj.logo.url}" alt="{obj.company}" style="max-width: 200px; max-height: 200px;" />
+                </a>"""
+            )
+        return "-"
+
+    get_logo_preview.short_description = "Превью 200px"
+
+    list_display = [
+        'user', 'company', 'updated_at',
+    ]
+    list_per_page = 30
+    readonly_fields = ('updated_at', 'created_at', get_logo_preview)
+    fieldsets = (
+        ('Основная информация', {
+            'fields': (
+                'user', 'company', 'info', 'courses',
+                'logo',  get_logo_preview,
+                ('created_at', 'updated_at'),
+            )
+        }),
+    )
+    search_fields = ('company', )
+    ordering = ('company', )

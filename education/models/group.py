@@ -1,7 +1,11 @@
 from django.db import models
 
+from rest_framework.reverse import reverse as api_reverse
 
-class Group(models.Model):
+from users.models.mixins import TimestampMixin
+
+
+class Group(TimestampMixin):
     name = models.CharField('Название группы', max_length=150, help_text='PyWeb-2019-09-16')
     slug = models.SlugField('Slug для url', max_length=150, unique=True,)
     category = models.ForeignKey('pages.Course', on_delete=models.CASCADE, verbose_name='Курс')
@@ -12,9 +16,12 @@ class Group(models.Model):
     students = models.ManyToManyField('users.Student', verbose_name='Студенты', blank=True)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('-created_at',)
         verbose_name = 'Группа'
         verbose_name_plural = 'Группы'
 
     def __str__(self):
         return f'Группа {self.name}'
+
+    def get_api_url(self, request=None):
+        return api_reverse('education:groups-detail', kwargs={'slug': self.slug}, request=request)
