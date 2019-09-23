@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from pages import models
 
@@ -20,10 +21,44 @@ class ContactsPageSerializer(serializers.ModelSerializer):
 
 class SiteConfigurationSerializer(serializers.ModelSerializer):
     logo = serializers.ImageField(use_url=True)
+    page_about_us = serializers.SerializerMethodField(read_only=True)
+    page_contacts = serializers.SerializerMethodField(read_only=True)
+    page_categories = serializers.SerializerMethodField(read_only=True)
+    page_courses = serializers.SerializerMethodField(read_only=True)
+    page_events = serializers.SerializerMethodField(read_only=True)
+    page_publications = serializers.SerializerMethodField(read_only=True)
+    page_reviews = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = models.SiteConfiguration
-        exclude = ['updated_at', ]
+        # exclude = ['updated_at', ]
+        fields = [
+            'title', 'logo', 'short_description',
+            'page_about_us', 'page_contacts', 'page_categories',
+            'page_courses', 'page_events', 'page_publications',
+            'page_reviews'
+        ]
+
+    def get_page_about_us(self, obj):
+        return reverse('pages:about-us-list',)
+
+    def get_page_contacts(self, obj):
+        return reverse('pages:contacts-list',)
+
+    def get_page_categories(self, obj):
+        return reverse('pages:categories-list',)
+
+    def get_page_courses(self, obj):
+        return reverse('pages:courses-list',)
+
+    def get_page_events(self, obj):
+        return reverse('pages:events-list',)
+
+    def get_page_publications(self, obj):
+        return reverse('pages:publications-list',)
+
+    def get_page_reviews(self, obj):
+        return reverse('pages:reviews-list',)
 
 
 class CourseShortSerializer(serializers.ModelSerializer):

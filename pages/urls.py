@@ -10,7 +10,7 @@ app_name = 'pages'
 
 router = routers.DefaultRouter()
 router.register('pages/about-us', views.AboutUsPageViewSet, 'about-us')
-router.register('pages/site-configuration', views.SiteConfigurationViewSet, 'site-configuration')
+router.register('pages', views.SiteConfigurationViewSet, 'site-configuration')
 router.register('pages/contacts', views.ContactsPageViewSet, 'contacts')
 router.register('pages/courses', views.CourseViewSet, 'courses')
 router.register('pages/categories', views.CourseCategoryViewSet, 'categories')
