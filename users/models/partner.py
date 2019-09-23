@@ -16,7 +16,7 @@ class Partner(models.Model):
         settings.AUTH_USER_MODEL,
         verbose_name='Пользователь',
         on_delete=models.CASCADE,
-        primary_key=True)
+        primary_key=True, related_name='partner')
 
     def upload_logo_image_dir(self, filename):
         url = f'partners/logo/{filename.lower()}'

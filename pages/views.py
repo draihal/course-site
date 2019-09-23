@@ -1,6 +1,6 @@
 from rest_framework import viewsets, mixins
 
-from users.permissions import IsLoggedInUserOrAdmin, IsAdminUser, IsTeacherUser, IsStudentUser
+from users.permissions import IsAdminUser, IsTeacherUser, IsStudentUser
 from pages import models
 from pages import serializers
 
@@ -17,16 +17,6 @@ class AboutUsPageViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, views
         return self.retrieve(*args, **kwargs)
 
 
-# class AboutUsPageViewSet(viewsets.ReadOnlyModelViewSet):
-#     queryset = models.AboutUsPage.objects.get()
-#     serializer_class = AboutUsPageSerializer
-
-#
-# class SiteConfigurationViewSet(viewsets.ReadOnlyModelViewSet):
-#     queryset = models.SiteConfiguration.objects.get()
-#     serializer_class = SiteConfigurationSerializer
-
-
 class SiteConfigurationViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = serializers.SiteConfigurationSerializer
 
@@ -37,11 +27,6 @@ class SiteConfigurationViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
 
     def list(self, *args, **kwargs):
         return self.retrieve(*args, **kwargs)
-
-
-# class ContactsPageViewSet(viewsets.ReadOnlyModelViewSet):
-#     queryset = models.ContactsPage.objects.get()
-#     serializer_class = ContactsPageSerializer
 
 
 class ContactsPageViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -76,9 +61,9 @@ class EventViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permission_classes = []
         if self.action == 'create':
-            permission_classes = [IsTeacherUser]
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = [IsLoggedInUserOrAdmin]
+            permission_classes = (IsAdminUser | IsTeacherUser,)
+        elif self.action == 'update' or self.action == 'partial_update':
+            permission_classes = (IsAdminUser | IsTeacherUser,)
         elif self.action == 'destroy':
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
@@ -98,7 +83,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
         permission_classes = []
         if self.action == 'create':
             permission_classes = [IsStudentUser]
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
+        elif self.action == 'update' or self.action == 'partial_update':
             permission_classes = [IsAdminUser]
         elif self.action == 'destroy':
             permission_classes = [IsAdminUser]

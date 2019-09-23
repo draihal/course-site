@@ -13,10 +13,10 @@ class CustomUserCreateSerializer(UserCreateSerializer):
 
 
 class CustomUserSerializer(UserSerializer):
+
     class Meta:
         model = CustomUser
         fields = ('id', 'first_name', 'last_name', )
-        # read_only_fields = (CustomUser.USERNAME_FIELD,)
 
 
 class StudentProfileSerializer(serializers.ModelSerializer):
@@ -53,14 +53,11 @@ class TeacherProfileSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField(use_url=True)
     involved = GroupShortSerializer(many=True, read_only=True, source='group_set')
     user = CustomUserSerializer(read_only=True,)
-    # first_name = CustomUserSerializer(source='user.first_name', read_only=True,)
-    # last_name = CustomUserSerializer(source='user.last_name', read_only=True, )
 
     class Meta:
         model = Teacher
         fields = [
             'id', 'user', 'url', 'avatar', 'bio',
-            # 'first_name', 'last_name',
             'username', 'company', 'position',
             'involved',
         ]
@@ -97,18 +94,14 @@ class PartnerProfileCreateOrUpdateSerializer(serializers.ModelSerializer):
         model = Partner
         exclude = ['created_at', 'updated_at', ]
 
-    # def create(self, validated_data):
-    #     return Partner.objects.create(updated_at=, **validated_data)
 
+class CustomUserWithProfileSerializer(UserSerializer):
+    student_profile = StudentProfileSerializer(read_only=True, source='student')
+    teacher_profile = StudentProfileSerializer(read_only=True, source='teacher')
+    partner_profile = StudentProfileSerializer(read_only=True, source='partner')
 
-# class CustomUserCreateSerializer(UserCreateSerializer):
-#     class Meta:
-#         fields = tuple(CustomUser.REQUIRED_FIELDS) + (
-#             CustomUser.USERNAME_FIELD,
-#             CustomUser._meta.pk.name,
-#             'password',
-#             'last_name',
-#             'is_partner',
-#             'is_student',
-#             'is_teacher',
-#         )
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'email', 'first_name', 'last_name',
+                  'phone_number', 'is_partner', 'is_student', 'is_teacher',
+                  'student_profile', 'teacher_profile', 'partner_profile']

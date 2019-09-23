@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from users.permissions import IsLoggedInUserOrAdmin, IsAdminUser, IsPartnerOrAdminUser, IsStudentUser, IsTeacherUser
+from users.permissions import IsAdminUser, IsPartnerUser, IsStudentUser, IsTeacherUser, IsOwnerOrAdmin
 from users.models import Partner, Student, Teacher
 from users import serializers
 
@@ -11,9 +11,9 @@ class PartnerProfileViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permission_classes = []
         if self.action == 'create':
-            permission_classes = [IsPartnerOrAdminUser]
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = [IsLoggedInUserOrAdmin]
+            permission_classes = (IsAdminUser | IsPartnerUser,)
+        elif self.action == 'update' or self.action == 'partial_update':
+            permission_classes = (IsOwnerOrAdmin,)
         elif self.action == 'destroy':
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
@@ -30,9 +30,9 @@ class StudentProfileViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permission_classes = []
         if self.action == 'create':
-            permission_classes = [IsStudentUser]
+            permission_classes = (IsAdminUser | IsStudentUser,)
         elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = [IsLoggedInUserOrAdmin]
+            permission_classes = (IsOwnerOrAdmin,)
         elif self.action == 'destroy' or self.action == 'list':
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
@@ -49,9 +49,9 @@ class TeacherProfileViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permission_classes = []
         if self.action == 'create':
-            permission_classes = [IsTeacherUser]
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = [IsLoggedInUserOrAdmin]
+            permission_classes = (IsAdminUser | IsTeacherUser,)
+        elif self.action == 'update' or self.action == 'partial_update':
+            permission_classes = (IsOwnerOrAdmin,)
         elif self.action == 'destroy':
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]

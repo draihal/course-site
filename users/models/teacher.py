@@ -10,7 +10,7 @@ class Teacher(models.Model):
         settings.AUTH_USER_MODEL,
         verbose_name='Пользователь',
         on_delete=models.CASCADE,
-        primary_key=True)
+        primary_key=True, related_name='teacher')
 
     def upload_avatar_image_dir(self, filename):
         return f'avatars/teachers/{filename.lower()}'
