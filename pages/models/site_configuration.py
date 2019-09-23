@@ -20,7 +20,6 @@ class SiteConfiguration(SingletonModel):
 
     class Meta:
         verbose_name = 'Основная информация'
-        verbose_name_plural = 'Основная информация'
 
     def __str__(self):
         return f'{self.short_description}'

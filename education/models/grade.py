@@ -15,8 +15,11 @@ class Grade(models.Model):
     teacher = models.ForeignKey('users.Teacher', on_delete=models.CASCADE, verbose_name='Преподаватель')
     student = models.ForeignKey('users.Student', on_delete=models.CASCADE, verbose_name='Студент')
     # chat = models.ForeignKey()  # TODO
+    created_at = models.DateTimeField('Создан', auto_now_add=True)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
+        ordering = ['-updated_at']
         verbose_name = 'Оценка'
         verbose_name_plural = 'Оценки'
 

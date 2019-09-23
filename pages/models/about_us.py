@@ -6,7 +6,6 @@ from solo.models import SingletonModel
 
 class AboutUsPage(SingletonModel):
     title = models.CharField(max_length=150, help_text='Название вкладки для страницы',)
-    slug = models.SlugField(max_length=150, help_text='Короткое название латиницей для url')
 
     def upload_image_dir(self, filename):
         return f'site/pages/about_us/{filename.lower()}'

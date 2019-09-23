@@ -1,5 +1,7 @@
 from django.db import models
 
+from rest_framework.reverse import reverse as api_reverse
+
 
 class Event(models.Model):
     name = models.CharField('Название мероприятия', max_length=150,)
@@ -9,11 +11,17 @@ class Event(models.Model):
     course = models.ForeignKey('pages.Course', on_delete=models.CASCADE, verbose_name='Курс')
     type_of_event = models.CharField('Тип мероприятия', help_text='День открытых дверей', max_length=350)
     datetime = models.DateTimeField('Время и дата проведения', )
-    url = models.URLField('Ссылка на запись')
+    url_translation = models.URLField('Ссылка на запись')
+    created_at = models.DateTimeField('Создан', auto_now_add=True)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
+        ordering = ['-datetime']
         verbose_name = 'Мероприятие'
         verbose_name_plural = 'Мероприятия'
 
     def __str__(self):
-        return f'{self.course} {self.student}'
+        return f'{self.course} {self.speaker}'
+
+    def get_api_url(self, request=None):
+        return api_reverse('pages:events-detail', kwargs={'slug': self.slug}, request=request)

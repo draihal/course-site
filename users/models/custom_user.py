@@ -61,6 +61,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField('Админ', default=False)
     date_joined = models.DateTimeField(
         'Дата регистрации', auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     objects = UserManager()
 

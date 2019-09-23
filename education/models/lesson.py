@@ -15,9 +15,11 @@ class Lesson(models.Model):
     homework_description = models.TextField('Описание домашнего задания',)
     homework_date = models.DateField('Дата сдачи до', )
     # materials = models.ForeignKey()  # TODO polymorphic
+    created_at = models.DateTimeField('Создан', auto_now_add=True)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('-datetime',)
         verbose_name = 'Урок'
         verbose_name_plural = 'Уроки'
 

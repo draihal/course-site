@@ -12,9 +12,11 @@ class Group(models.Model):
     date_end = models.DateField('Дата окончания обучения', )
     teachers = models.ManyToManyField('users.Teacher', verbose_name='Преподаватели', blank=True)
     students = models.ManyToManyField('users.Student', verbose_name='Студенты', blank=True)
+    created_at = models.DateTimeField('Создан', auto_now_add=True)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('-created_at',)
         verbose_name = 'Группа'
         verbose_name_plural = 'Группы'
 

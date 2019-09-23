@@ -30,11 +30,12 @@ class Partner(models.Model):
     company = models.CharField('Название компании', max_length=127)
     info = models.TextField('О компании', max_length=500, blank=True)
     created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Обновлен', auto_now=True)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
     courses = models.ManyToManyField(
         'pages.Course', verbose_name='Выпусники каких курсов интересуют', blank=True)
 
     class Meta:
+        ordering = ['company']
         verbose_name = 'Партнер'
         verbose_name_plural = 'Партнеры'
 

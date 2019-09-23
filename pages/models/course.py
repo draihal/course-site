@@ -30,6 +30,7 @@ class Course(models.Model):
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
     # program_details =  # TODO
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
         ordering = ('name',)
@@ -40,4 +41,4 @@ class Course(models.Model):
         return f'{self.name}'
 
     def get_api_url(self, request=None):
-        return api_reverse('pages:course-detail', kwargs={'pk': self.pk}, request=request)
+        return api_reverse('pages:courses-detail', kwargs={'slug': self.slug}, request=request)

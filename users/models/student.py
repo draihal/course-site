@@ -41,9 +41,10 @@ class Student(models.Model):
     company = models.CharField('Компания', max_length=127, blank=True)
     position = models.CharField('Должность', max_length=127, blank=True)
     created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Обновлен', auto_now=True)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
+        ordering = ['-created_at']
         verbose_name = 'Студент'
         verbose_name_plural = 'Студенты'
 

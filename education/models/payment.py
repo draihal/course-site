@@ -6,8 +6,11 @@ class Payment(models.Model):
     invoice = models.URLField('Ссылка на чек', max_length=250)
     module = models.ForeignKey('education.Module', on_delete=models.DO_NOTHING, verbose_name='Модуль')
     student = models.ForeignKey('users.Student', on_delete=models.DO_NOTHING, verbose_name='Студент')
+    created_at = models.DateTimeField('Создан', auto_now_add=True)
+    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     class Meta:
+        ordering = ['-datetime']
         verbose_name = 'Оплата'
         verbose_name_plural = 'Оплата'
 
