@@ -5,6 +5,11 @@ from solo.models import SingletonModel
 
 
 class ContactsPage(SingletonModel):
+    # + and 15 digits
+    phone_regex = RegexValidator(
+        regex=r'^\+?1?\d{9,15}$',
+        message="Телефон должен быть в формате: '+79259999999'")
+
     title = models.CharField(max_length=150, help_text='Название вкладки для страницы',)
     vk = models.URLField('VK', max_length=250)
     fb = models.URLField('Facebook', max_length=250)
@@ -13,9 +18,6 @@ class ContactsPage(SingletonModel):
     telegram = models.URLField('Telegram', max_length=250)
     address = models.CharField('Адрес', max_length=250)
     details = models.TextField('Реквизиты', max_length=500)
-    phone_regex = RegexValidator(
-        regex=r'^\+?1?\d{9,15}$',
-        message="Телефон должен быть в формате: '+79259999999'")
     phone_number = models.CharField(
         'Телефонный номер',
         validators=[phone_regex],
@@ -28,4 +30,4 @@ class ContactsPage(SingletonModel):
         verbose_name = 'Страница - Контакты'
 
     def __str__(self):
-        return f'Страница контактов'
+        return 'Страница контактов'

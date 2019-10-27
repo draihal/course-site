@@ -4,12 +4,12 @@ from django.core.validators import validate_image_file_extension
 from solo.models import SingletonModel
 
 
+def upload_logo_image_dir(instance, filename):
+    return f'site/logo/{filename.lower()}'
+
+
 class SiteConfiguration(SingletonModel):
     title = models.CharField('Название вкладки с сайтом', max_length=250)
-
-    def upload_logo_image_dir(self, filename):
-        return f'site/logo/{filename.lower()}'
-
     logo = models.ImageField(
         'Логотип сайта курсов',
         upload_to=upload_logo_image_dir,
@@ -22,4 +22,4 @@ class SiteConfiguration(SingletonModel):
         verbose_name = 'Основная информация'
 
     def __str__(self):
-        return f'{self.short_description}'
+        return self.short_description
