@@ -5,79 +5,50 @@ from education import models
 from education import serializers
 
 
-class GradeViewSet(viewsets.ModelViewSet):
-    queryset = models.Grade.objects.all()
-    serializer_class = serializers.GradeSerializer
-
+class EducationAppViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permission_classes = []
         if self.action == 'create':
-            permission_classes = (IsAdminUser | IsTeacherUser,)
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = (IsAdminUser | IsTeacherUser,)
-        elif self.action == 'destroy' or self.action == 'list':
-            permission_classes = [IsAdminUser]
+            permission_classes = (IsAdminUser | self.user_type_role,)
+        elif self.action in ['retrieve', 'update', 'partial_update']:
+            permission_classes = (IsAdminUser | self.user_type_role,)
+        elif self.action in ['destroy', 'list']:
+            permission_classes = (IsAdminUser,)
         return [permission() for permission in permission_classes]
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GradeViewSet(EducationAppViewSet):
+    queryset = models.Grade.objects.all()
+    serializer_class = serializers.GradeSerializer
+
+    user_type_role = IsTeacherUser
+
+
+class GroupViewSet(EducationAppViewSet):
     queryset = models.Group.objects.prefetch_related('students', 'students__user', 'teachers', 'teachers__user')
     lookup_field = 'slug'
     serializer_class = serializers.GroupSerializer
 
-    def get_permissions(self):
-        permission_classes = []
-        if self.action == 'create':
-            permission_classes = (IsAdminUser | IsTeacherUser,)
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = (IsAdminUser | IsTeacherUser,)
-        elif self.action == 'destroy' or self.action == 'list':
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
+    user_type_role = IsTeacherUser
 
 
-class LessonViewSet(viewsets.ModelViewSet):
+class LessonViewSet(EducationAppViewSet):
     queryset = models.Lesson.objects.all()
     lookup_field = 'slug'
     serializer_class = serializers.LessonSerializer
 
-    def get_permissions(self):
-        permission_classes = []
-        if self.action == 'create':
-            permission_classes = (IsAdminUser | IsTeacherUser,)
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = (IsAdminUser | IsTeacherUser,)
-        elif self.action == 'destroy' or self.action == 'list':
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
+    user_type_role = IsTeacherUser
 
 
-class ModuleViewSet(viewsets.ModelViewSet):
+class ModuleViewSet(EducationAppViewSet):
     queryset = models.Module.objects.all()
     serializer_class = serializers.ModuleSerializer
 
-    def get_permissions(self):
-        permission_classes = []
-        if self.action == 'create':
-            permission_classes = (IsAdminUser | IsTeacherUser,)
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = (IsAdminUser | IsTeacherUser,)
-        elif self.action == 'destroy' or self.action == 'list':
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
+    user_type_role = IsTeacherUser
 
 
-class PaymentViewSet(viewsets.ModelViewSet):
+class PaymentViewSet(EducationAppViewSet):
     queryset = models.Payment.objects.all()
     serializer_class = serializers.PaymentSerializer
 
-    def get_permissions(self):
-        permission_classes = []
-        if self.action == 'create':
-            permission_classes = [IsStudentUser]
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = (IsAdminUser | IsStudentUser,)
-        elif self.action == 'destroy' or self.action == 'list':
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
-
+    user_type_role = IsStudentUser

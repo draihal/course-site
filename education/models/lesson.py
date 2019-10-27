@@ -18,7 +18,7 @@ class Lesson(TimestampMixin):
     homework_title = models.CharField('Название домашнего задания', max_length=250)
     homework_description = models.TextField('Описание домашнего задания',)
     homework_date = models.DateField('Дата сдачи до', )
-    # materials = models.ForeignKey()  # TODO polymorphic
+    # materials = models.ForeignKey()  # TODO: add polymorphic
 
     class Meta:
         ordering = ('-datetime',)
