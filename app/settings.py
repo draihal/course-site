@@ -24,9 +24,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# To disable debug, remove the variable from the environment instead of trying to type cast
+DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -91,11 +93,11 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangocourses',
-        'USER': 'draihal',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': os.environ.get('DATABASE_NAME', 'djangocourses'),
+        'USER': os.environ.get('DATABASE_USER', 'dj_courses'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST', ''),
+        'PORT': os.environ.get('DATABASE_PORT', ''),
     }
 }
 
@@ -147,15 +149,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "/media/")
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        #'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        #'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-        # 'rest_framework.permissions.IsAuthenticated',
-        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -184,4 +181,9 @@ DJOSER = {
 try:
     from local_settings import *
 except ImportError as e:
+    # No local settings was found, skipping.
     pass
+
+if not DEBUG and len(SECRET_KEY) < 25:
+    print(f'The value of DJANGO_SECRET_KEY does not contain enough characters ({len(SECRET_KEY)} characters)')
+    raise RuntimeError(f'DJANGO_SECRET_KEY is not long enough (in environment variable "DJANGO_SECRET_KEY")')

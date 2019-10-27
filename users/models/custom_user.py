@@ -4,8 +4,9 @@ from django.contrib.auth.models import PermissionsMixin
 from django.core.mail import send_mail
 from django.core.validators import validate_email, RegexValidator
 
-
 from rest_framework.reverse import reverse as api_reverse
+
+from utils.mixins import TimestampMixin
 
 
 class UserManager(BaseUserManager):
@@ -39,15 +40,17 @@ class UserManager(BaseUserManager):
         return user
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField('Имя', max_length=127)
-    last_name = models.CharField('Фамилия', max_length=127, blank=True)
-    email = models.EmailField(
-        'Email', max_length=255, unique=True, validators=[validate_email])
+class CustomUser(AbstractBaseUser, PermissionsMixin, TimestampMixin):
     # + and 15 digits
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
         message="Телефон должен быть в формате: '+79259999999'")
+
+    # Fields
+    first_name = models.CharField('Имя', max_length=127)
+    last_name = models.CharField('Фамилия', max_length=127, blank=True)
+    email = models.EmailField(
+        'Email', max_length=255, unique=True, validators=[validate_email])
     phone_number = models.CharField(
         'Телефонный номер',
         validators=[phone_regex],
@@ -59,9 +62,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField('Активный', default=True)
     is_staff = models.BooleanField('Сотрудник', default=False)
     is_superuser = models.BooleanField('Админ', default=False)
-    date_joined = models.DateTimeField(
-        'Дата регистрации', auto_now_add=True, editable=False)
-    updated_at = models.DateTimeField('Последнее обновление', auto_now=True)
 
     objects = UserManager()
 
@@ -74,13 +74,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Все пользователи'
 
     def get_full_name(self):
-        return f'{self.first_name} {self.last_name if self.last_name else ""}'
+        return f'{self.first_name} {self.last_name or ""}'
 
     def get_short_name(self):
         return self.first_name
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name if self.last_name else ""}'
+        return self.get_full_name()
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         """

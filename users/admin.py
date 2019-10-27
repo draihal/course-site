@@ -8,8 +8,8 @@ from .models import CustomUser, Partner, Student, Teacher
 @admin.register(CustomUser)
 class UserAdmin(UserAdmin):
 
-    list_display = ('first_name', 'email', 'phone_number', 'last_login',
-                    'date_joined', 'is_student', 'is_teacher', 'is_partner',
+    list_display = ('first_name', 'email', 'phone_number', 'updated_at',
+                    'created_at', 'is_student', 'is_teacher', 'is_partner',
                     'is_staff')
     list_filter = ('is_student', 'is_teacher', 'is_partner', 'is_staff')
 
@@ -23,7 +23,7 @@ class UserAdmin(UserAdmin):
                        ('is_active', 'is_staff', 'is_superuser'))
         }),
         ('Даты', {
-            'fields': ('last_login', 'date_joined')
+            'fields': ('updated_at', 'created_at')
         }),
         ('Группы и разрешения', {
             'fields': ('groups', 'user_permissions')
@@ -36,7 +36,7 @@ class UserAdmin(UserAdmin):
     }), )
     search_fields = ('email', 'first_name', 'phone_number')
     ordering = ('is_staff', )
-    readonly_fields = ('last_login', 'date_joined')
+    readonly_fields = ('updated_at', 'created_at')
     list_per_page = 30
     filter_horizontal = ()
 
@@ -71,7 +71,7 @@ class StudentAdmin(admin.ModelAdmin):
                 'user', ('first_name_lat', 'last_name_lat',),
                 'username', 'birth_date', 'sex',
                 ('country', 'city'),
-                ('relocate', 'full_time', 'part_time', 'remote',),
+                ('can_relocate', 'can_full_time', 'can_part_time', 'can_remote',),
                 ('company', 'position',),
                 'avatar',  get_image_preview,
                 ('created_at', 'updated_at'),
@@ -95,7 +95,7 @@ class TeacherAdmin(admin.ModelAdmin):
         ('Основная информация', {
             'fields': (
                 'user', ('first_name_lat', 'last_name_lat',),
-                'username', 'birth_date', 'sex', 'bio',
+                'username', 'birth_date', 'sex', 'about_section',
                 ('country', 'city'),
                 ('company', 'position',),
                 'avatar',  get_image_preview,
