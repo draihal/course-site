@@ -15,7 +15,7 @@ class Module(TimestampMixin):
         verbose_name_plural = 'Модули'
 
     def __str__(self):
-        return {self.name}
+        return self.name
 
     def get_api_url(self, request=None):
         return api_reverse('education:modules-detail', kwargs={'pk': self.pk}, request=request)
