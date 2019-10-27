@@ -27,9 +27,7 @@ schema_view = get_schema_view(
       title="Courses API",
       default_version='v1',
       description="API for courses site",
-      # terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="draihal.a@gmail.com"),
-      # license=openapi.License(name="MIT License"),
    ),
    # if False, includes only endpoints the current user has access to
    public=False,

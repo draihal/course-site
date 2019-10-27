@@ -2,7 +2,7 @@ from django.db import models
 
 from rest_framework.reverse import reverse as api_reverse
 
-from users.models.mixins import TimestampMixin
+from utils.mixins import TimestampMixin
 
 
 class Review(TimestampMixin):

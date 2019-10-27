@@ -4,25 +4,25 @@ from django.core.validators import validate_image_file_extension
 
 from rest_framework.reverse import reverse as api_reverse
 
-from .mixins import TimestampMixin
+from utils.mixins import TimestampMixin
 
-# class PartnerManager(models.Manager):
-#     def get_queryset(self):
-#         return super(PartnerManager, self).get_queryset().select_related('user').prefetch_related('courses')
+
+class PartnerManager(models.Manager):
+    def get_queryset(self):
+        return super(PartnerManager, self).get_queryset().select_related('user').prefetch_related('courses')
+
+
+def upload_logo_image_dir(instance, filename):
+    return f'partners/logo/{filename.lower()}'
 
 
 class Partner(TimestampMixin):
-    # objects = PartnerManager()
+    objects = PartnerManager()
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         verbose_name='Пользователь',
         on_delete=models.CASCADE,
         primary_key=True, related_name='partner')
-
-    def upload_logo_image_dir(self, filename):
-        url = f'partners/logo/{filename.lower()}'
-        return url
-
     logo = models.ImageField(
         'Логотип компании',
         upload_to=upload_logo_image_dir,
@@ -39,7 +39,7 @@ class Partner(TimestampMixin):
         verbose_name_plural = 'Партнеры'
 
     def __str__(self):
-        return f'{self.company}'
+        return {self.company}
 
     def get_api_url(self, request=None):
         return api_reverse('users:partner-profile-detail', kwargs={'pk': self.user.pk}, request=request)

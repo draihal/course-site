@@ -22,13 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-if len(SECRET_KEY) < 25:
-    print(f'The value of DJANGO_SECRET_KEY does not contain enough characters ({len(SECRET_KEY)} characters)')
-    raise RuntimeError(f'DJANGO_SECRET_KEY is not long enough (in environment variable "DJANGO_SECRET_KEY")')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # To disable debug, remove the variable from the environment instead of trying to type cast
 DEBUG = os.environ.get('DEBUG', False)
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -185,3 +183,7 @@ try:
 except ImportError as e:
     # No local settings was found, skipping.
     pass
+
+if not DEBUG and len(SECRET_KEY) < 25:
+    print(f'The value of DJANGO_SECRET_KEY does not contain enough characters ({len(SECRET_KEY)} characters)')
+    raise RuntimeError(f'DJANGO_SECRET_KEY is not long enough (in environment variable "DJANGO_SECRET_KEY")')

@@ -4,12 +4,17 @@ from django.core.validators import validate_image_file_extension
 
 from rest_framework.reverse import reverse as api_reverse
 
-from .mixins import BioMixin, TimestampMixin
+from .mixins import BioMixin
+from utils.mixins import TimestampMixin
 
 
 class StudentManager(models.Manager):
     def get_queryset(self):
         return super(StudentManager, self).get_queryset().select_related('user')
+
+
+def upload_avatar_image_dir(instance, filename):
+    return f'avatars/students/{filename.lower()}'
 
 
 class Student(BioMixin, TimestampMixin):
@@ -19,20 +24,15 @@ class Student(BioMixin, TimestampMixin):
         verbose_name='Пользователь',
         on_delete=models.CASCADE,
         primary_key=True, related_name='student')
-
-    def upload_avatar_image_dir(self, filename):
-        url = f'avatars/students/{filename.lower()}'
-        return url
-
     avatar = models.ImageField(
         'Фотография',
         upload_to=upload_avatar_image_dir,
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
-    relocate = models.BooleanField('Готовность к переезду', )
-    full_time = models.BooleanField('Полный день', )
-    part_time = models.BooleanField('Гибкий график', )
-    remote = models.BooleanField('Удаленно', )
+    can_relocate = models.BooleanField('Готовность к переезду', )
+    can_full_time = models.BooleanField('Полный день', )
+    can_part_time = models.BooleanField('Гибкий график', )
+    can_remote = models.BooleanField('Удаленно', )
 
     class Meta:
         ordering = ['-created_at']
@@ -40,7 +40,7 @@ class Student(BioMixin, TimestampMixin):
         verbose_name_plural = 'Студенты'
 
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name if self.user.last_name else ""}'
+        return f'{self.user.first_name} {self.user.last_name or ""}'
 
     def get_api_url(self, request=None):
         return api_reverse('users:student-profile-detail', kwargs={'pk': self.user.pk}, request=request)

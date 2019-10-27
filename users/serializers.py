@@ -30,8 +30,8 @@ class StudentProfileSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'user', 'url', 'avatar', 'first_name_lat',
             'last_name_lat', 'username', 'birth_date',
-            'country', 'city', 'relocate', 'full_time',
-            'part_time', 'remote', 'remote', 'sex', 'company',
+            'country', 'city', 'can_relocate', 'can_full_time',
+            'can_part_time', 'can_remote', 'sex', 'company',
             'position', 'involved',
         ]
 
@@ -57,7 +57,7 @@ class TeacherProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
         fields = [
-            'id', 'user', 'url', 'avatar', 'bio',
+            'id', 'user', 'url', 'avatar', 'about_section',
             'username', 'company', 'position',
             'involved',
         ]

@@ -3,7 +3,7 @@ from django.core.validators import validate_image_file_extension
 
 from rest_framework.reverse import reverse as api_reverse
 
-from users.models.mixins import TimestampMixin
+from utils.mixins import TimestampMixin
 
 
 class MassMediaPublication(TimestampMixin):
