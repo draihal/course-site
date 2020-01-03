@@ -18,6 +18,10 @@ djangorestframework-simplejwt = "~=4.3"
 djoser = "~=2.0"
 drf-yasg = "~=1.16"
 packaging = "~=19.2"
+celery = {extras = ["redis"],version = "~=4.3"}
+redis = "~=3.3"
+django-celery-beat = "~=1.5"
+django-celery-results = "~=1.1"
 
 [requires]
 python_version = "3.6"
