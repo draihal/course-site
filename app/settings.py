@@ -74,7 +74,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -171,6 +171,7 @@ SIMPLE_JWT = {
 
 
 DJOSER = {
+    'TOKEN_MODEL': None,  # needed for JWT
     'PERMISSIONS': {
         'user_delete': ['users.permissions.IsAdminUser'],
     },
@@ -178,7 +179,25 @@ DJOSER = {
         'user_create': 'users.serializers.CustomUserCreateSerializer',
         'user': 'users.serializers.CustomUserWithProfileSerializer',
     },
+    # 'HIDE_USERS': If set to True, listing /users/ enpoint by normal user will return only that user’s
+    # profile in the list. Beside that, accessing /users/<id>/ endpoints by user without
+    # proper permission will result in HTTP 404 instead of HTTP 403.
     'HIDE_USERS': True,
+    'ACTIVATION_URL': 'users/activation/{uid}/{token}',  # TODO: urls in frontend, POST to back
+    'PASSWORD_RESET_CONFIRM_URL': 'users/password/reset/confirm/{uid}/{token}',  # TODO: urls in frontend, POST to back
+    'USERNAME_RESET_CONFIRM_URL': 'users/reset/confirm/{uid}/{token}',  # TODO: urls in frontend, POST to back
+    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_CONFIRMATION_EMAIL': False,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': False,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': False,
+    'EMAIL': {
+        'activation': 'users.emails.CustomActivationEmail',
+        'confirmation': 'users.emails.CustomConfirmationEmail',
+        'password_reset': 'users.emails.CustomPasswordResetEmail',
+        'password_changed_confirmation': 'users.emails.CustomPasswordChangedConfirmationEmail',
+        'username_changed_confirmation': 'users.emails.CustomUsernameChangedConfirmationEmail',
+        'username_reset': 'users.emails.CustomUsernameResetEmail',
+    }
 }
 
 
