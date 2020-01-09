@@ -12,7 +12,10 @@ from utils.mixins import TimestampMixin
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def create_user(self, first_name, email, phone_number, password=None):
+    def create_user(
+            self, first_name, email, phone_number,
+            last_name=None, is_student=False, is_teacher=False,
+            is_partner=False, password=None):
         """
         Creates and saves a User with the given email and password.
         """
@@ -20,7 +23,11 @@ class UserManager(BaseUserManager):
             raise ValueError('Email обязателен!')
         user = self.model(
             first_name=first_name,
+            last_name=last_name,
             email=self.normalize_email(email),
+            is_student=is_student,
+            is_teacher=is_teacher,
+            is_partner=is_partner,
             phone_number=phone_number)
         user.set_password(password)
         user.save(using=self._db)
@@ -32,7 +39,10 @@ class UserManager(BaseUserManager):
         password.
         """
         user = self.create_user(
-            first_name, email, phone_number, password=password)
+            first_name, email, phone_number, password=password,
+            last_name=None, is_student=False,
+            is_teacher=False, is_partner=False
+        )
 
         user.is_staff = True
         user.is_superuser = True
