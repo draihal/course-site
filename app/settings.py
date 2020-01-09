@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'djoser',
+    'django_celery_beat',
+    'django_celery_results',
+    'djcelery_email',
 
     # Local
     'users.apps.UsersConfig',
@@ -71,7 +74,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -168,6 +171,7 @@ SIMPLE_JWT = {
 
 
 DJOSER = {
+    'TOKEN_MODEL': None,  # needed for JWT
     'PERMISSIONS': {
         'user_delete': ['users.permissions.IsAdminUser'],
     },
@@ -175,8 +179,45 @@ DJOSER = {
         'user_create': 'users.serializers.CustomUserCreateSerializer',
         'user': 'users.serializers.CustomUserWithProfileSerializer',
     },
+    # 'HIDE_USERS': If set to True, listing /users/ enpoint by normal user will return only that user’s
+    # profile in the list. Beside that, accessing /users/<id>/ endpoints by user without
+    # proper permission will result in HTTP 404 instead of HTTP 403.
     'HIDE_USERS': True,
+    'ACTIVATION_URL': 'users/activation/{uid}/{token}',  # TODO: urls in frontend, POST to back
+    'PASSWORD_RESET_CONFIRM_URL': 'users/password/reset/confirm/{uid}/{token}',  # TODO: urls in frontend, POST to back
+    'USERNAME_RESET_CONFIRM_URL': 'users/reset/confirm/{uid}/{token}',  # TODO: urls in frontend, POST to back
+    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_CONFIRMATION_EMAIL': False,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': False,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': False,
+    'EMAIL': {
+        'activation': 'users.emails.CustomActivationEmail',
+        'confirmation': 'users.emails.CustomConfirmationEmail',
+        'password_reset': 'users.emails.CustomPasswordResetEmail',
+        'password_changed_confirmation': 'users.emails.CustomPasswordChangedConfirmationEmail',
+        'username_changed_confirmation': 'users.emails.CustomUsernameChangedConfirmationEmail',
+        'username_reset': 'users.emails.CustomUsernameResetEmail',
+    }
 }
+
+
+CELERY_BROKER_URL = os.environ.get('REDIS_URL')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+
+
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.sendgrid.net')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', 587)
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True)
+
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@webmaster')
 
 try:
     from local_settings import *
