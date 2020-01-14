@@ -15,3 +15,8 @@ API specification:
 ## Dependencies
 You can look it in Pipfile.
 
+## Tests
+```python
+pytest
+```
+
