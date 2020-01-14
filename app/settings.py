@@ -188,7 +188,7 @@ DJOSER = {
     'ACTIVATION_URL': 'users/activation/{uid}/{token}',  # TODO: urls in frontend, POST to back
     'PASSWORD_RESET_CONFIRM_URL': 'users/password/reset/confirm/{uid}/{token}',  # TODO: urls in frontend, POST to back
     'USERNAME_RESET_CONFIRM_URL': 'users/reset/confirm/{uid}/{token}',  # TODO: urls in frontend, POST to back
-    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_ACTIVATION_EMAIL': False,
     'SEND_CONFIRMATION_EMAIL': False,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': False,
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': False,

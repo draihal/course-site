@@ -1,1 +1,2 @@
 from .custom_user import UsersManagersTests, CustomUserTest
+from .permissions import UserUnauthorizedTest, UserAPIAuthorizationAndPermissionsTest
