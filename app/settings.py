@@ -224,7 +224,7 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@webmaster')
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
-    os.environ.get('CORS_ORIGIN_WHITELIST'),  # can be like r"^https://\w+\.example\.com$",
+    os.environ.get('CORS_ORIGIN_WHITELIST', 'http://localhost:3000,'),  # can be like r"^https://\w+\.example\.com$",
 )
 
 try:

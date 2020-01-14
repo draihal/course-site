@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
 
     def create_user(
             self, first_name, email, phone_number,
-            last_name=None, is_student=False, is_teacher=False,
+            last_name='', is_student=False, is_teacher=False,
             is_partner=False, password=None):
         """
         Creates and saves a User with the given email and password.
@@ -40,7 +40,7 @@ class UserManager(BaseUserManager):
         """
         user = self.create_user(
             first_name, email, phone_number, password=password,
-            last_name=None, is_student=False,
+            last_name='', is_student=False,
             is_teacher=False, is_partner=False
         )
 
