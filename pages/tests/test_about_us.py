@@ -1,10 +1,14 @@
+import pytest
+
 from django.test import TestCase
 
-from ..models.about_us import AboutUsPage
+from .. import factories
 
 
+@pytest.mark.django_db
 class AboutUsPageTest(TestCase):
+    def setUp(self):
+        self.about_us_page = factories.AboutUsPageFactory()
 
-    # first() because AboutUsPage django singleton
     def test__str__(self):
-        self.assertEqual(AboutUsPage.objects.first().__str__(), 'Страница о нас')
+        assert self.about_us_page.__str__() == 'Страница о нас'

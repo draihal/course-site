@@ -1,22 +1,18 @@
+import pytest
+
 from django.test import TestCase
 
 from ..models.course_category import CourseCategory
+from .. import factories
 
 
+@pytest.mark.django_db
 class CourseCategoryTest(TestCase):
-
-    @staticmethod
-    def create_course_category():
-        return CourseCategory.objects.create(
-            name='only a test',
-            slug='uniqslugforcoursecategory',
-        )
-
     def setUp(self):
-        self.course_category = self.create_course_category()
+        self.course_category = factories.CourseCategoryFactory()
 
     def test_course_category_creation(self):
-        self.assertTrue(isinstance(self.course_category, CourseCategory))
+        assert isinstance(self.course_category, CourseCategory)
 
     def test___str__(self):
-        self.assertEqual(self.course_category.__str__(), self.course_category.name)
+        assert self.course_category.__str__() == self.course_category.name

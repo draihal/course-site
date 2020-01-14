@@ -1,10 +1,14 @@
+import pytest
+
 from django.test import TestCase
 
-from ..models.contacts import ContactsPage
+from .. import factories
 
 
+@pytest.mark.django_db
 class ContactsPageTest(TestCase):
+    def setUp(self):
+        self.contacts_page = factories.ContactsPageFactory()
 
-    # first() because ContactsPage django singleton
     def test__str__(self):
-        self.assertEqual(ContactsPage.objects.first().__str__(), 'Страница контактов')
+        assert self.contacts_page.__str__() == 'Страница контактов'

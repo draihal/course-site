@@ -1,11 +1,15 @@
+import pytest
+
 from django.test import TestCase
 
-from ..models.site_configuration import SiteConfiguration
+from .. import factories
 
 
+@pytest.mark.django_db
 class SiteConfigurationTest(TestCase):
 
-    # first() because SiteConfiguration django singleton
+    def setUp(self):
+        self.site_configuration = factories.SiteConfigurationFactory()
+
     def test__str__(self):
-        siteconf = SiteConfiguration.objects.first()
-        self.assertEqual(SiteConfiguration.objects.first().__str__(), siteconf.short_description)
+        assert self.site_configuration.__str__() == self.site_configuration.short_description
