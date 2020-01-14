@@ -57,8 +57,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, TimestampMixin):
         message="Телефон должен быть в формате: '+79259999999'")
 
     # Fields
-    first_name = models.CharField('Имя', max_length=127)
-    last_name = models.CharField('Фамилия', max_length=127, blank=True)
+    first_name = models.CharField('Имя', max_length=255)
+    last_name = models.CharField('Фамилия', max_length=255, blank=True)
     email = models.EmailField(
         'Email', max_length=255, unique=True, validators=[validate_email])
     phone_number = models.CharField(
