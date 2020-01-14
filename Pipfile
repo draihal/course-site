@@ -24,6 +24,8 @@ django-celery-beat = "~=1.5"
 django-celery-results = "~=1.1"
 django-celery-email = "~=3.0"
 djoser = "~=2.0"
+coverage = "~=5.0"
+django-cors-headers = "~=3.2"
 
 [requires]
 python_version = "3.6"

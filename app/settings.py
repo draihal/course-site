@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
     'solo.apps.SoloAppConfig',
     'rest_framework',
     'drf_yasg',
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -186,7 +188,7 @@ DJOSER = {
     'ACTIVATION_URL': 'users/activation/{uid}/{token}',  # TODO: urls in frontend, POST to back
     'PASSWORD_RESET_CONFIRM_URL': 'users/password/reset/confirm/{uid}/{token}',  # TODO: urls in frontend, POST to back
     'USERNAME_RESET_CONFIRM_URL': 'users/reset/confirm/{uid}/{token}',  # TODO: urls in frontend, POST to back
-    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_ACTIVATION_EMAIL': False,
     'SEND_CONFIRMATION_EMAIL': False,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': False,
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': False,
@@ -218,6 +220,12 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True)
 
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@webmaster')
+
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    os.environ.get('CORS_ORIGIN_WHITELIST', 'http://localhost:3000,'),  # can be like r"^https://\w+\.example\.com$",
+)
 
 try:
     from local_settings import *
