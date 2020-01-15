@@ -231,7 +231,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 sentry_sdk.init(
-    dsn="https://048028f372154772b5cdd70bd6c126c9@sentry.io/1882957",
+    dsn=os.environ.get('SENTRY_SDK_DNS'),
     integrations=[DjangoIntegration()],
 
     # If you wish to associate users to errors (assuming you are using
