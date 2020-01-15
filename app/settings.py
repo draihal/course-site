@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 from datetime import timedelta
 import os
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -225,6 +228,15 @@ CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
     os.environ.get('CORS_ORIGIN_WHITELIST', 'http://localhost:3000,'),  # can be like r"^https://\w+\.example\.com$",
+)
+
+sentry_sdk.init(
+    dsn="https://048028f372154772b5cdd70bd6c126c9@sentry.io/1882957",
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    # send_default_pii=True
 )
 
 try:

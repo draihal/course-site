@@ -38,6 +38,11 @@ admin.site.site_header = "Сайт курсов"
 admin.site.site_title = "Сайт курсов"
 admin.site.index_title = "Добро пожаловать в панель управления сайта курсов!"
 
+
+# def trigger_error(request):
+#     division_by_zero = 1 / 0
+
+
 urlpatterns = [
     path('courses-admin/', admin.site.urls, name='admin'),
     re_path(r'^api/v1/swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
@@ -46,6 +51,7 @@ urlpatterns = [
     path('api/v1/', include('users.urls')),
     path('api/v1/', include('pages.urls')),
     path('api/v1/', include('education.urls')),
+    # path('sentry-debug/', trigger_error),
 ]
 
 if settings.DEBUG:
