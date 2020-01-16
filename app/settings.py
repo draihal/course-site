@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 from datetime import timedelta
 import os
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -230,14 +228,14 @@ CORS_ORIGIN_WHITELIST = (
     os.environ.get('CORS_ORIGIN_WHITELIST', 'http://localhost:3000,'),  # can be like r"^https://\w+\.example\.com$",
 )
 
-sentry_sdk.init(
-    dsn=os.environ.get('SENTRY_SDK_DNS'),
-    integrations=[DjangoIntegration()],
 
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    # send_default_pii=True
-)
+if 'SENTRY_DSN' in os.environ:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=os.environ['SENTRY_DSN'], integrations=[DjangoIntegration()]
+    )
 
 try:
     from local_settings import *
