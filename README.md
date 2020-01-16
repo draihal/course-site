@@ -16,6 +16,7 @@ API specification:
 You can look it in Pipfile.
 
 ## Tests
+Run in cli:
 ```python
 pytest
 ```
