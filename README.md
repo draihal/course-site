@@ -13,7 +13,16 @@ API specification:
 
 
 ## Dependencies
-You can look it in Pipfile.
+The base project dependencies:
+
+- python version 3.6 +
+- django 2.2
+- PostgreSQL 
+- djangorestframework 3.10
+- celery  with extras "redis" 4.3
+- redis 3.3
+
+The complete list of Python dependencies can be found at Pipfile.
 
 ## Tests
 Run in cli:
