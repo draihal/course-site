@@ -44,3 +44,7 @@ class Student(BioMixin, TimestampMixin):
 
     def get_api_url(self, request=None):
         return api_reverse('users:student-profile-detail', kwargs={'pk': self.user.pk}, request=request)
+
+    @staticmethod
+    def get_number_of_students():
+        return Student.objects.count()

@@ -2,6 +2,8 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 from pages import models
+from users.models import Student, Teacher, Partner
+from education.models import Group
 
 
 class AboutUsPageSerializer(serializers.ModelSerializer):
@@ -149,3 +151,74 @@ class ReviewSerializer(serializers.ModelSerializer):
     def get_url(self, obj):
         request = self.context.get("request")
         return obj.get_api_url(request=request)
+
+
+class TeachersForIndexPageSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+    teacher_id = serializers.IntegerField(source='user.pk', read_only=True)
+    avatar = serializers.ImageField(use_url=True)
+    teacher_first_name = serializers.CharField(source='teacher.user.first_name', read_only=True)
+    teacher_last_name = serializers.CharField(source='teacher.user.last_name', read_only=True)
+
+    class Meta:
+        model = Teacher
+        fields = [
+            'teacher_id', 'url', 'avatar',
+            'teacher_first_name', 'teacher_last_name',
+            'company', 'position', 'bio',
+        ]
+
+    def get_url(self, obj):
+        request = self.context.get("request")
+        return obj.get_api_url(request=request)
+
+
+class PartnersForIndexPageSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+    id = serializers.IntegerField(source='user.pk', read_only=True)
+    logo = serializers.ImageField(use_url=True)
+
+    class Meta:
+        model = Partner
+        fields = ['id', 'url', 'logo', 'company', 'info', ]
+
+    def get_url(self, obj):
+        request = self.context.get("request")
+        return obj.get_api_url(request=request)
+
+
+class IndexPageSerializer(serializers.ModelSerializer):
+    number_of_students = serializers.SerializerMethodField(read_only=True)
+    number_of_groups = serializers.SerializerMethodField(read_only=True)
+    number_of_teachers = serializers.SerializerMethodField(read_only=True)
+    random_three_teachers = serializers.SerializerMethodField(read_only=True)
+    random_ten_partners = serializers.SerializerMethodField(read_only=True)
+    random_two_reviews = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = models.IndexPage
+        fields = ['title', 'short_description', 'description',
+                  'number_of_students', 'number_of_groups', 'number_of_teachers',
+                  'random_three_teachers', 'random_ten_partners', 'random_two_reviews',
+                  ]
+
+    def get_number_of_students(self, obj):
+        return Student.get_number_of_students()
+
+    def get_number_of_groups(self, obj):
+        return Group.get_number_of_groups()
+
+    def get_number_of_teachers(self, obj):
+        return Teacher.get_number_of_teachers()
+
+    def get_random_three_teachers(self, obj):
+        random_three_teachers = Teacher.get_random_teachers(number_of_teachers=3)
+        return TeachersForIndexPageSerializer(random_three_teachers, many=True).data
+
+    def get_random_ten_partners(self, obj):
+        random_ten_partners = Partner.get_random_partners(number_of_partners=10)
+        return PartnersForIndexPageSerializer(random_ten_partners, many=True).data
+
+    def get_random_two_reviews(self, obj):
+        random_two_reviews = models.Review.get_random_reviews(number_of_reviews=2)
+        return ReviewSerializer(random_two_reviews, many=True).data

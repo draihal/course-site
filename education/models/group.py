@@ -25,3 +25,7 @@ class Group(TimestampMixin):
 
     def get_api_url(self, request=None):
         return api_reverse('education:groups-detail', kwargs={'slug': self.slug}, request=request)
+
+    @staticmethod
+    def get_number_of_groups():
+        return Group.objects.count()

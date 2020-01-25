@@ -30,7 +30,7 @@ class PartnerProfileViewSet(UserProfileViewSet):
     read_serializer = serializers.PartnerProfileSerializer
 
 
-class StudentProfileViewSet(viewsets.ModelViewSet):
+class StudentProfileViewSet(UserProfileViewSet):
     queryset = Student.objects.select_related('user').prefetch_related('group_set')
 
     user_type_role = IsStudentUser
@@ -38,7 +38,7 @@ class StudentProfileViewSet(viewsets.ModelViewSet):
     read_serializer = serializers.StudentProfileSerializer
 
 
-class TeacherProfileViewSet(viewsets.ModelViewSet):
+class TeacherProfileViewSet(UserProfileViewSet):
     queryset = Teacher.objects.select_related('user').prefetch_related('group_set')
 
     user_type_role = IsTeacherUser

@@ -76,3 +76,9 @@ class ReviewViewSet(PagesViewSet):
     serializer_class = serializers.ReviewSerializer
 
     user_type_role = IsStudentUser
+
+
+class IndexViewSet(SoloPageViewSet):
+    serializer_class = serializers.IndexPageSerializer
+
+    model_solo = models.IndexPage.get_solo()

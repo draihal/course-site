@@ -6,3 +6,4 @@ from .event import EventAdmin
 from .massmedia_publication import MassMediaPublicationAdmin
 from .review import ReviewAdmin
 from .siteconfiguration import SiteConfigurationAdmin
+from .index_page import IndexPageAdmin

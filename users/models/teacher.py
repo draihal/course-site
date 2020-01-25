@@ -1,8 +1,9 @@
+import random
+from rest_framework.reverse import reverse as api_reverse
+
 from django.db import models
 from django.conf import settings
 from django.core.validators import validate_image_file_extension
-
-from rest_framework.reverse import reverse as api_reverse
 
 from .mixins import BioMixin
 from utils.mixins import TimestampMixin
@@ -41,3 +42,17 @@ class Teacher(BioMixin, TimestampMixin):
 
     def get_api_url(self, request=None):
         return api_reverse('users:teacher-profile-detail', kwargs={'pk': self.user.pk}, request=request)
+
+    @staticmethod
+    def get_number_of_teachers():
+        return Teacher.objects.count()
+
+    @staticmethod
+    def get_random_teachers(number_of_teachers):
+        valid_id_list = Teacher.objects.values_list('user__id', flat=True)  # QuerySet [1, 2, 3, ...] flat=True
+        random_id_list = random.sample(
+            list(valid_id_list),
+            min(len(valid_id_list), number_of_teachers)
+        )
+        query_set = Teacher.objects.filter(user__id__in=random_id_list)
+        return query_set

@@ -17,6 +17,7 @@ router.register('pages/categories', views.CourseCategoryViewSet, 'categories')
 router.register('pages/events', views.EventViewSet, 'events')
 router.register('pages/publications', views.MassMediaPublicationViewSet, 'publications')
 router.register('pages/reviews', views.ReviewViewSet, 'reviews')
+router.register('pages/index', views.IndexViewSet, 'index')
 
 
 urlpatterns = [
