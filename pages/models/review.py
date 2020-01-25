@@ -1,3 +1,5 @@
+import random
+
 from django.db import models
 
 from rest_framework.reverse import reverse as api_reverse
@@ -21,3 +23,13 @@ class Review(TimestampMixin):
 
     def get_api_url(self, request=None):
         return api_reverse('pages:reviews-detail', kwargs={'pk': self.pk}, request=request)
+
+    @staticmethod
+    def get_random_reviews(number_of_reviews):
+        valid_id_list = Review.objects.values_list('id', flat=True)  # QuerySet [1, 2, 3, ...] flat=True
+        random_id_list = random.sample(
+            list(valid_id_list),
+            min(len(valid_id_list), number_of_reviews)
+        )
+        query_set = Review.objects.filter(id__in=random_id_list)
+        return query_set

@@ -22,7 +22,7 @@ The base project dependencies:
 - celery  with extras "redis" 4.3
 - redis 3.3
 
-The complete list of Python dependencies can be found at Pipfile.
+The complete list of dependencies can be found at Pipfile.
 
 ## Tests
 Run in cli:

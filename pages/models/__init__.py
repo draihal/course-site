@@ -6,3 +6,4 @@ from .mass_media import MassMediaPublication
 from .site_configuration import SiteConfiguration
 from .review import Review
 from .event import Event
+from .index import IndexPage

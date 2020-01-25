@@ -95,7 +95,7 @@ class TeacherAdmin(admin.ModelAdmin):
         ('Основная информация', {
             'fields': (
                 'user', ('first_name_lat', 'last_name_lat',),
-                'username', 'birth_date', 'sex', 'about_section',
+                'username', 'birth_date', 'sex', 'bio',
                 ('country', 'city'),
                 ('company', 'position',),
                 'avatar',  get_image_preview,
@@ -103,6 +103,19 @@ class TeacherAdmin(admin.ModelAdmin):
             )
         }),
     )
+
+
+def get_logo_preview(obj):
+    if obj.pk:
+        return mark_safe(
+            f"""<a href="{obj.logo.url}" target="_blank">
+            <img src="{obj.logo.url}" alt="{obj.company}" style="max-width: 200px; max-height: 200px;" />
+            </a>"""
+        )
+    return "-"
+
+
+get_logo_preview.short_description = "Превью 200px"
 
 
 @admin.register(Partner)
@@ -114,17 +127,6 @@ class PartnerAdmin(admin.ModelAdmin):
         if request.resolver_match.func.__name__ == 'change_view':
             qs = qs.prefetch_related('courses')
         return qs
-
-    def get_logo_preview(self, obj):
-        if obj.pk:
-            return mark_safe(
-                f"""<a href="{obj.logo.url}" target="_blank">
-                <img src="{obj.logo.url}" alt="{obj.company}" style="max-width: 200px; max-height: 200px;" />
-                </a>"""
-            )
-        return "-"
-
-    get_logo_preview.short_description = "Превью 200px"
 
     list_display = [
         'user', 'company', 'updated_at',
