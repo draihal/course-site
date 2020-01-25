@@ -143,6 +143,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source='student.user.pk', read_only=True)
     student_first_name = serializers.CharField(source='student.user.first_name', read_only=True)
     student_last_name = serializers.CharField(source='student.user.last_name', read_only=True)
+    student_image = serializers.ImageField(use_url=True, source='student.avatar', read_only=True, )
 
     class Meta:
         model = models.Review
