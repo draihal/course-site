@@ -146,7 +146,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Review
-        exclude = ['updated_at', 'created_at', ]
+        exclude = ['updated_at', 'created_at', 'student', 'course']
 
     def get_url(self, obj):
         request = self.context.get("request")
@@ -157,8 +157,8 @@ class TeachersForIndexPageSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
     teacher_id = serializers.IntegerField(source='user.pk', read_only=True)
     avatar = serializers.ImageField(use_url=True)
-    teacher_first_name = serializers.CharField(source='teacher.user.first_name', read_only=True)
-    teacher_last_name = serializers.CharField(source='teacher.user.last_name', read_only=True)
+    teacher_first_name = serializers.CharField(source='user.first_name', read_only=True)
+    teacher_last_name = serializers.CharField(source='user.last_name', read_only=True)
 
     class Meta:
         model = Teacher
