@@ -97,8 +97,8 @@ class PartnerProfileCreateOrUpdateSerializer(serializers.ModelSerializer):
 
 class CustomUserWithProfileSerializer(UserSerializer):
     student_profile = StudentProfileSerializer(read_only=True, source='student')
-    teacher_profile = StudentProfileSerializer(read_only=True, source='teacher')
-    partner_profile = StudentProfileSerializer(read_only=True, source='partner')
+    teacher_profile = TeacherProfileSerializer(read_only=True, source='teacher')
+    partner_profile = PartnerProfileSerializer(read_only=True, source='partner')
 
     class Meta:
         model = CustomUser
