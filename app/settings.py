@@ -169,7 +169,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT', 'Bearer'),
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),   # timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 
@@ -181,6 +182,7 @@ DJOSER = {
     'SERIALIZERS': {
         'user_create': 'users.serializers.CustomUserCreateSerializer',
         'user': 'users.serializers.CustomUserWithProfileSerializer',
+        'current_user': 'users.serializers.CustomUserSerializer',
     },
     # 'HIDE_USERS': If set to True, listing /users/ enpoint by normal user will return only that user’s
     # profile in the list. Beside that, accessing /users/<id>/ endpoints by user without
@@ -201,6 +203,14 @@ DJOSER = {
         'username_changed_confirmation': 'users.emails.CustomUsernameChangedConfirmationEmail',
         'username_reset': 'users.emails.CustomUsernameResetEmail',
     }
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
 }
 
 
@@ -225,7 +235,7 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@webmaster')
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
-    os.environ.get('CORS_ORIGIN_WHITELIST', 'http://localhost:3000,'),  # can be like r"^https://\w+\.example\.com$",
+    os.environ.get('CORS_ORIGIN_WHITELIST', 'http://localhost:3000'),  # can be like r"^https://\w+\.example\.com$",
 )
 
 

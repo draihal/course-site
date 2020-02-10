@@ -16,23 +16,24 @@ class CustomUserSerializer(UserSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'first_name', 'last_name', )
+        fields = ('id', 'first_name', 'last_name', 'email', 'phone_number',)
 
 
 class StudentProfileSerializer(serializers.ModelSerializer):
-    url = serializers.SerializerMethodField(read_only=True)
     id = serializers.IntegerField(source='user.pk', read_only=True)
+    url = serializers.SerializerMethodField(read_only=True)
     avatar = serializers.ImageField(use_url=True)
     involved = GroupShortSerializer(many=True, read_only=True, source='group_set')
 
     class Meta:
         model = Student
         fields = [
-            'id', 'user', 'url', 'avatar', 'first_name_lat',
+            'id', 'url', 'avatar', 'first_name_lat',
             'last_name_lat', 'username', 'birth_date',
             'country', 'city', 'can_relocate', 'can_full_time',
             'can_part_time', 'can_remote', 'sex', 'company',
-            'position', 'involved',
+            'position',
+            'involved',
         ]
 
     def get_url(self, obj):
@@ -52,12 +53,11 @@ class TeacherProfileSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source='user.pk', read_only=True)
     avatar = serializers.ImageField(use_url=True)
     involved = GroupShortSerializer(many=True, read_only=True, source='group_set')
-    user = CustomUserSerializer(read_only=True,)
 
     class Meta:
         model = Teacher
         fields = [
-            'id', 'user', 'url', 'avatar', 'bio',
+            'id', 'url', 'avatar', 'bio',
             'username', 'company', 'position',
             'involved',
         ]
@@ -103,5 +103,6 @@ class CustomUserWithProfileSerializer(UserSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'email', 'first_name', 'last_name',
-                  'phone_number', 'is_partner', 'is_student', 'is_teacher',
+                  'phone_number',
+                  # 'is_partner', 'is_student', 'is_teacher',
                   'student_profile', 'teacher_profile', 'partner_profile']

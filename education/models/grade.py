@@ -18,7 +18,8 @@ class Grade(TimestampMixin):
     lesson = models.ForeignKey('education.Lesson', on_delete=models.CASCADE, verbose_name='Урок')
     teacher = models.ForeignKey('users.Teacher', on_delete=models.CASCADE, verbose_name='Преподаватель')
     student = models.ForeignKey('users.Student', on_delete=models.CASCADE, verbose_name='Студент')
-    # chat = models.ForeignKey()  # TODO
+    # chat = models.ForeignKey()  # TODO: add chat
+    # student_homework = models.TextField('Поле для домашннего задания', )
 
     class Meta:
         ordering = ['-updated_at']
