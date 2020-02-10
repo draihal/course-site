@@ -17,11 +17,18 @@ class EducationAppViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
 
+class HomeworkViewSet(EducationAppViewSet):
+    queryset = models.Homework.objects.all()
+    serializer_class = serializers.HomeworkSerializer
+
+    user_type_role = (IsTeacherUser | IsStudentUser)
+
+
 class GradeViewSet(EducationAppViewSet):
     queryset = models.Grade.objects.all()
     serializer_class = serializers.GradeSerializer
 
-    user_type_role = IsTeacherUser
+    user_type_role = (IsTeacherUser | IsStudentUser)
 
 
 class GroupViewSet(EducationAppViewSet):
@@ -29,7 +36,7 @@ class GroupViewSet(EducationAppViewSet):
     lookup_field = 'slug'
     serializer_class = serializers.GroupSerializer
 
-    user_type_role = IsTeacherUser
+    user_type_role = (IsTeacherUser | IsStudentUser)
 
 
 class LessonViewSet(EducationAppViewSet):
@@ -37,18 +44,18 @@ class LessonViewSet(EducationAppViewSet):
     lookup_field = 'slug'
     serializer_class = serializers.LessonSerializer
 
-    user_type_role = IsTeacherUser
+    user_type_role = (IsTeacherUser | IsStudentUser)
 
 
 class ModuleViewSet(EducationAppViewSet):
     queryset = models.Module.objects.all()
     serializer_class = serializers.ModuleSerializer
 
-    user_type_role = IsTeacherUser
+    user_type_role = (IsTeacherUser | IsStudentUser)
 
 
 class PaymentViewSet(EducationAppViewSet):
     queryset = models.Payment.objects.all()
     serializer_class = serializers.PaymentSerializer
 
-    user_type_role = IsStudentUser
+    user_type_role = (IsTeacherUser | IsStudentUser)
