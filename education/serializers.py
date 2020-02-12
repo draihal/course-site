@@ -5,6 +5,8 @@ from education.models import Group, Grade, Lesson, Module, Payment, Homework
 
 class GradeSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
+    teacher_first_name = serializers.CharField(source='teacher.user.first_name', read_only=True)
+    teacher_last_name = serializers.CharField(source='teacher.user.last_name', read_only=True)
 
     class Meta:
         model = Grade
@@ -17,6 +19,9 @@ class GradeSerializer(serializers.ModelSerializer):
 
 class HomeworkSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
+    grade = GradeSerializer(many=False, read_only=True)
+    student_first_name = serializers.CharField(source='student.user.first_name', read_only=True)
+    student_last_name = serializers.CharField(source='student.user.last_name', read_only=True)
 
     class Meta:
         model = Homework
@@ -42,7 +47,6 @@ class GroupShortSerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
     homework = HomeworkSerializer(many=True, read_only=True, source='homework_set')
-    grade = GradeSerializer(many=True, read_only=True, source='grade_set')
 
     class Meta:
         model = Lesson

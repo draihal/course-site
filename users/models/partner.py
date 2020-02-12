@@ -30,7 +30,7 @@ class Partner(TimestampMixin):
         upload_to=upload_logo_image_dir,
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
-    company = models.CharField('Название компании', max_length=255)
+    company = models.CharField('Название компании', max_length=255, blank=True)
     info = models.TextField('О компании', max_length=500, blank=True)
     courses = models.ManyToManyField(
         'pages.Course', verbose_name='Выпусники каких курсов интересуют', blank=True)

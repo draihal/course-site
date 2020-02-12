@@ -16,6 +16,7 @@ class Grade(TimestampMixin):
     status = models.CharField('Статус домашнего задания', max_length=16, choices=STATUS_CHOICES)
     grade = models.TextField('Оценка преподавателя', )
     lesson = models.ForeignKey('education.Lesson', on_delete=models.CASCADE, verbose_name='Урок')
+    homework = models.OneToOneField('education.Homework', on_delete=models.CASCADE, verbose_name='Домашняя работа')
     teacher = models.ForeignKey('users.Teacher', on_delete=models.CASCADE, verbose_name='Преподаватель')
     student = models.ForeignKey('users.Student', on_delete=models.CASCADE, verbose_name='Студент')
     # chat = models.ForeignKey()  # TODO: add chat

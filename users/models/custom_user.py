@@ -50,6 +50,7 @@ class UserManager(BaseUserManager):
         return user
 
 
+# TODO: add post signal to create student or teacher or partner model if need
 class CustomUser(AbstractBaseUser, PermissionsMixin, TimestampMixin):
     # + and 15 digits
     phone_regex = RegexValidator(
