@@ -13,10 +13,10 @@ class BioMixin(models.Model):
     last_name_lat = models.CharField(
         'Фамилия (латиницей)', max_length=127, blank=True)
     username = models.CharField('Имя (в блоге)', max_length=127, blank=True)
-    birth_date = models.DateField('Дата рождения', blank=True)
-    country = models.CharField('Страна', max_length=2, choices=COUNTRY_CHOICES)
-    city = models.CharField('Город', max_length=127)
-    sex = models.CharField('Пол', max_length=1, choices=SEX_CHOICES)
+    birth_date = models.DateField('Дата рождения', blank=True, null=True)
+    country = models.CharField('Страна', max_length=2, choices=COUNTRY_CHOICES, default='NA')
+    city = models.CharField('Город', max_length=127, blank=True)
+    sex = models.CharField('Пол', max_length=1, choices=SEX_CHOICES, default='0')
     company = models.CharField('Компания', max_length=127, blank=True)
     position = models.CharField('Должность', max_length=127, blank=True)
 

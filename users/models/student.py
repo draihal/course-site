@@ -29,10 +29,10 @@ class Student(BioMixin, TimestampMixin):
         upload_to=upload_avatar_image_dir,
         blank=True,
         validators=[validate_image_file_extension])  # TODO hash
-    can_relocate = models.BooleanField('Готовность к переезду', )
-    can_full_time = models.BooleanField('Полный день', )
-    can_part_time = models.BooleanField('Гибкий график', )
-    can_remote = models.BooleanField('Удаленно', )
+    can_relocate = models.BooleanField('Готовность к переезду', default=False)
+    can_full_time = models.BooleanField('Полный день', default=False)
+    can_part_time = models.BooleanField('Гибкий график', default=False)
+    can_remote = models.BooleanField('Удаленно', default=False)
 
     class Meta:
         ordering = ['-created_at']

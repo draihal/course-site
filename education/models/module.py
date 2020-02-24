@@ -10,7 +10,7 @@ class Module(TimestampMixin):
     group = models.ForeignKey('education.Group', on_delete=models.CASCADE, verbose_name='Группа')
 
     class Meta:
-        ordering = ('group',)
+        ordering = ('name',)
         verbose_name = 'Модуль'
         verbose_name_plural = 'Модули'
 
