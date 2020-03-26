@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeSection render correctly HomeSection component 1`] = `
+<div
+  id="home"
+>
+  <div
+    className="landing"
+  >
+    <div
+      className="home-wrap"
+    >
+      <div
+        className="home-inner"
+      />
+    </div>
+  </div>
+  <div
+    className="caption text-center"
+  >
+    <div
+      className="container"
+    >
+      <h1>
+        Тестовый title
+      </h1>
+      <h3>
+        Тестовое описание
+      </h3>
+      <a
+        className="btn btn-outline-light btn-lg"
+        href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        Выбрать
+      </a>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddGrade render correctly AddGrade component 1`] = `
+<div
+  className="group py-4"
+>
+  <div
+    className="container"
+  >
+    <h2>
+      Домашнее задание от 
+      Testing First Name
+       
+      Testing Last Name
+    </h2>
+    <hr />
+    <form
+      className="form-horizontal form-profile"
+      onSubmit={[Function]}
+      role="form"
+    >
+      <div
+        className="form-group row"
+      >
+        <label
+          className="col-lg-2 control-label"
+        >
+          Ответ студента
+        </label>
+        <div
+          className="col-lg-10"
+        >
+          <input
+            className="form-control-plaintext"
+            readOnly={true}
+            type="text"
+            value="Testing Homework"
+          />
+        </div>
+      </div>
+      <div
+        className="form-group row"
+      >
+        <label
+          className="col-lg-2 control-label"
+          htmlFor="grade_status"
+        >
+          Статус проверки
+        </label>
+        <div
+          className="col-lg-10"
+        >
+          <div
+            className="ui-select"
+          >
+            <select
+              className="form-control"
+              id="grade_status"
+              onChange={[Function]}
+              value=""
+            >
+              <option
+                value="undone"
+              >
+                Не сдано
+              </option>
+              <option
+                value="check"
+              >
+                На проверке
+              </option>
+              <option
+                value="rework"
+              >
+                На доработке
+              </option>
+              <option
+                value="done"
+              >
+                Сдано
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group row"
+      >
+        <label
+          className="col-lg-2 control-label"
+          htmlFor="grade_textarea"
+        >
+          Оценка
+        </label>
+        <textarea
+          className="col-lg-10 form-control"
+          id="grade_textarea"
+          onChange={[Function]}
+          required={true}
+          rows="4"
+          value=""
+        />
+      </div>
+      <button
+        className="btn btn-secondary btn-md float-right"
+        type="submit"
+      >
+        Сохранить
+      </button>
+    </form>
+  </div>
+</div>
+`;

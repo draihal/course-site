@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModuleSection render correctly ModuleSection component 1`] = `
+<div
+  className="col-md-12"
+>
+  <div>
+    <h3>
+      Модуль: 
+      1 месяц
+    </h3>
+    <hr />
+    <div
+      className="col-md-12"
+    />
+  </div>
+  <div>
+    <h3>
+      Модуль: 
+      2 месяц
+    </h3>
+    <hr />
+    <div
+      className="col-md-12"
+    />
+  </div>
+  <div>
+    <h3>
+      Модуль: 
+      3 месяц
+    </h3>
+    <hr />
+    <div
+      className="col-md-12"
+    />
+  </div>
+</div>
+`;
