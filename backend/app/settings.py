@@ -22,14 +22,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'you-will-never-guess')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # To disable debug, remove the variable from the environment instead of trying to type cast
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
 
-ALLOWED_HOSTS = ['*']
+# 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
+# For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost 127.0.0.1 [::1]").split(" ")
 
 
 # Application definition
@@ -97,13 +99,13 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME', 'djangocourses'),
-        'USER': os.environ.get('DATABASE_USER', 'dj_courses'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-        'HOST': os.environ.get('DATABASE_HOST', ''),
-        'PORT': os.environ.get('DATABASE_PORT', ''),
+    "default": {
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        "USER": os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
 
@@ -142,15 +144,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "/media/")
+MEDIA_URL = '/mediafiles/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "/mediafiles/")
 
 
 REST_FRAMEWORK = {
@@ -235,7 +237,8 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@webmaster')
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
-    os.environ.get('CORS_ORIGIN_WHITELIST', 'http://localhost:3000'),  # can be like r"^https://\w+\.example\.com$",
+    # can be like r'^https://\w+\.example\.com$'
+    os.environ.get('CORS_ORIGIN_WHITELIST', 'http://localhost:3000'),
 )
 
 
@@ -247,12 +250,12 @@ if 'SENTRY_DSN' in os.environ:
         dsn=os.environ['SENTRY_DSN'], integrations=[DjangoIntegration()]
     )
 
-try:
-    from local_settings import *
-except ImportError as e:
-    # No local settings was found, skipping.
-    pass
+# try:
+#     from local_settings import *
+# except ImportError as e:
+#     # No local settings was found, skipping.
+#     pass
 
-if not DEBUG and len(SECRET_KEY) < 25:
-    print(f'The value of DJANGO_SECRET_KEY does not contain enough characters ({len(SECRET_KEY)} characters)')
-    raise RuntimeError(f'DJANGO_SECRET_KEY is not long enough (in environment variable "DJANGO_SECRET_KEY")')
+# if not DEBUG and len(SECRET_KEY) < 25:
+#     print(f'The value of DJANGO_SECRET_KEY does not contain enough characters ({len(SECRET_KEY)} characters)')
+#     raise RuntimeError(f'DJANGO_SECRET_KEY is not long enough (in environment variable "DJANGO_SECRET_KEY")')

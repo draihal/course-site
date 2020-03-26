@@ -24,7 +24,7 @@ class AboutUsPageAdmin(SingletonModelAdmin):
     fieldsets = (
         ('Основная информация', {
             'fields': (
-                ('title', 'slug'),
+                ('title',),
                 'short_description', 'short_about_us',
                 'main_image',  get_main_image_preview,
                 ('updated_at', ),

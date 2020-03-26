@@ -7,7 +7,7 @@ from education.models import Group
 
 
 class AboutUsPageSerializer(serializers.ModelSerializer):
-    main_image = serializers.ImageField(use_url=True)
+    # main_image = serializers.ImageField(use_url=True)
 
     class Meta:
         model = models.AboutUsPage

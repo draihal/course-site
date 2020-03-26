@@ -1,3 +1,4 @@
+from django.db import ProgrammingError
 from rest_framework import viewsets, mixins
 
 from users.permissions import IsAdminUser, IsTeacherUser, IsStudentUser
@@ -18,19 +19,28 @@ class SoloPageViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets
 class AboutUsPageViewSet(SoloPageViewSet):
     serializer_class = serializers.AboutUsPageSerializer
 
-    model_solo = models.AboutUsPage.get_solo()
+    try:
+        model_solo = models.AboutUsPage.get_solo()  # objects.get() #get_solo()  #objects.first() objects.filter(pk='1')
+    except ProgrammingError as e:
+        model_solo = models.AboutUsPage.objects.all()
 
 
 class SiteConfigurationViewSet(SoloPageViewSet):
     serializer_class = serializers.SiteConfigurationSerializer
 
-    model_solo = models.SiteConfiguration.get_solo()
+    try:
+        model_solo = models.SiteConfiguration.get_solo()
+    except ProgrammingError as e:
+        model_solo = models.SiteConfiguration.objects.all()
 
 
 class ContactsPageViewSet(SoloPageViewSet):
     serializer_class = serializers.ContactsPageSerializer
 
-    model_solo = models.ContactsPage.get_solo()
+    try:
+        model_solo = models.ContactsPage.get_solo()
+    except ProgrammingError as e:
+        model_solo = models.ContactsPage.objects.all()
 
 
 class CourseViewSet(viewsets.ReadOnlyModelViewSet):
@@ -81,4 +91,7 @@ class ReviewViewSet(PagesViewSet):
 class IndexViewSet(SoloPageViewSet):
     serializer_class = serializers.IndexPageSerializer
 
-    model_solo = models.IndexPage.get_solo()
+    try:
+        model_solo = models.IndexPage.get_solo()
+    except ProgrammingError as e:
+        model_solo = models.IndexPage.objects.all()

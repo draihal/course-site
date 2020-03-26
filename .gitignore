@@ -1,4 +1,6 @@
 s.py
+Pipfile
+Pipfile.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -41,6 +43,7 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
+.coveragerc
 .coverage.*
 .cache
 nosetests.xml
@@ -85,6 +88,9 @@ celerybeat-schedule
 
 # Environments
 .env
+.env.dev
+.env.prod
+.env.prod.db
 .venv
 env/
 venv/
@@ -104,3 +110,33 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+
+# Frontend part
+
+.idea
+/.vscode
+/.next
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
