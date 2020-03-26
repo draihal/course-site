@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentCourses render correctly StudentCourses component 1`] = `
+<div
+  className="container"
+>
+  <h2>
+    Мои курсы
+  </h2>
+  <hr />
+  <div
+    className="row"
+  >
+    <div
+      className="col-sm-4"
+    >
+      <div
+        className="card"
+      >
+        <div
+          className="card-body"
+        >
+          <h5
+            className="card-title"
+          >
+            PyWeb-2019-09-16
+          </h5>
+          <p
+            className="card-text"
+          >
+            Some text.
+          </p>
+          <a
+            className="btn btn-secondary btn-md float-right"
+            href="/group?name=pyweb-2019-09-16"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            Перейти
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TeacherSection render correctly TeacherSection component 1`] = `
+<div
+  className="offset"
+  id="teachers"
+>
+  <div
+    className="fixed-background"
+  >
+    <div
+      className="row dark"
+    >
+      <div
+        className="container"
+      >
+        <div
+          className="narrow text-center"
+        >
+          <div
+            className="col-12"
+          >
+            <h3
+              className="heading"
+            >
+              Преподаватели
+            </h3>
+            <div
+              className="heading-underline"
+            >
+               
+            </div>
+          </div>
+        </div>
+        <div
+          className="row text-center"
+        >
+          <div
+            className="col-md-4 teachers"
+          >
+            <h3>
+              Teacher 1
+               
+              Test 1
+            </h3>
+            <div
+              className="feature"
+            >
+              <img
+                src="static/default_user.jpg"
+              />
+              <p
+                className="lead"
+              >
+                
+              </p>
+            </div>
+          </div>
+          <div
+            className="col-md-4 teachers"
+          >
+            <h3>
+              Teacher 2
+               
+              Test 2
+            </h3>
+            <div
+              className="feature"
+            >
+              <img
+                src="static/default_user.jpg"
+              />
+              <p
+                className="lead"
+              >
+                
+              </p>
+            </div>
+          </div>
+          <div
+            className="col-md-4 teachers"
+          >
+            <h3>
+              Teacher 3
+               
+              Test 3
+            </h3>
+            <div
+              className="feature"
+            >
+              <img
+                src="static/default_user.jpg"
+              />
+              <p
+                className="lead"
+              >
+                
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="text-center"
+        >
+          <div
+            className="col-12"
+          >
+            <a
+              className="btn btn-outline-light btn-lg"
+              href="#"
+            >
+              Все преподаватели
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="fixed-wrap"
+    >
+      <div
+        className="fixed"
+      />
+    </div>
+  </div>
+</div>
+`;

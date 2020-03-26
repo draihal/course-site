@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentsHomework render correctly StudentsHomework component 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-md-12 table-responsive-md"
+  >
+    <table
+      className="table"
+    >
+      <thead>
+        <tr>
+          <th
+            scope="col"
+          >
+            Студент
+          </th>
+          <th
+            scope="col"
+          >
+            Статус проверки
+          </th>
+          <th
+            scope="col"
+          >
+            Оценка
+          </th>
+          <th
+            scope="col"
+          >
+            Проверил
+          </th>
+          <th
+            scope="col"
+          >
+            Домашняя работа
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>
+            Student 1
+             
+            
+          </th>
+          <th>
+            rework
+          </th>
+          <th>
+            test grade 1
+          </th>
+          <th>
+            Test teacher_last_name 1
+          </th>
+          <th>
+            <a
+              href="/grade?homework=1"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              Проверить
+            </a>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            Student 2
+             
+            
+          </th>
+          <th>
+            done
+          </th>
+          <th>
+            test grade 2
+          </th>
+          <th>
+            Test teacher_last_name 2
+          </th>
+          <th>
+            <a
+              href="/grade?homework=2"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              Проверить
+            </a>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

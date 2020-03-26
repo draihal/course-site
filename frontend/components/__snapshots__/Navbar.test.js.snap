@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navbar render correctly Navbar component 1`] = `
+<div>
+  <nav
+    className="navbar navbar-expand-lg navbar-dark black fixed-top"
+  >
+    <div
+      className="container"
+    >
+      <a
+        className="navbar-brand"
+        href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        Онлайн курсы
+      </a>
+      <button
+        className="navbar-toggler"
+        data-target="#navbarResponsive"
+        data-toggle="collapse"
+        type="button"
+      >
+        <span
+          className="navbar-toggler-icon"
+        >
+           
+        </span>
+      </button>
+      <div
+        className="collapse navbar-collapse"
+        id="navbarResponsive"
+      >
+        <ul
+          className="navbar-nav ml-auto"
+        >
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="/#home"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              Главная
+            </a>
+          </li>
+          <li
+            className="nav-item dropdown"
+          >
+            <a
+              aria-expanded="false"
+              aria-haspopup="true"
+              className="nav-link dropdown-toggle"
+              data-toggle="dropdown"
+              href="index.html#courses"
+              id="navbarDropdown"
+              role="button"
+            >
+              Курсы
+            </a>
+            <div
+              aria-labelledby="navbarDropdown"
+              className="dropdown-menu"
+            >
+              <a
+                className="dropdown-item"
+                href="#"
+              >
+                Категория курса
+              </a>
+              <a
+                className="dropdown-item"
+                href="#"
+              >
+                Другая категория
+              </a>
+              <a
+                className="dropdown-item"
+                href="#"
+              >
+                Еще одна
+              </a>
+              <a
+                className="dropdown-item"
+                href="#"
+              >
+                И еще
+              </a>
+            </div>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="/#teachers"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              Преподаватели
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="/#partners"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              Работа в компаниях
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="/#reviews"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              Отзывы
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              data-testid="signin-link"
+              href="/signin"
+              id="login-icon"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              <svg
+                aria-hidden="true"
+                className="svg-inline--fa fa-sign-in-alt fa-w-16 fa-2x "
+                data-icon="sign-in-alt"
+                data-prefix="fas"
+                focusable="false"
+                role="img"
+                style={Object {}}
+                viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M416 448h-84c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h84c17.7 0 32-14.3 32-32V160c0-17.7-14.3-32-32-32h-84c-6.6 0-12-5.4-12-12V76c0-6.6 5.4-12 12-12h84c53 0 96 43 96 96v192c0 53-43 96-96 96zm-47-201L201 79c-15-15-41-4.5-41 17v96H24c-13.3 0-24 10.7-24 24v96c0 13.3 10.7 24 24 24h136v96c0 21.5 26 32 41 17l168-168c9.3-9.4 9.3-24.6 0-34z"
+                  fill="currentColor"
+                  style={Object {}}
+                />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+`;
